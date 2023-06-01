@@ -76,7 +76,9 @@ public class SolvingActivity extends AppCompatActivity {
                             intent.putExtra("grade", grade);
                             intent.putExtra("word", word);
                             intent.putExtra("usageExample", usageExample);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
+                            finish();
                         }
 
                         @Override
@@ -105,7 +107,9 @@ public class SolvingActivity extends AppCompatActivity {
                 public void onFinish(boolean ended) {
                     Toast.makeText(SolvingActivity.this, "Sesja zakończona", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(SolvingActivity.this, UserInterface.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    finish();
                 }
                 @Override
                 public void onError(String error) {

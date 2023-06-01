@@ -48,7 +48,9 @@ public class SummaryActivity extends AppCompatActivity {
                 intent.putExtra("appid", appid);
                 intent.putExtra("studentid", studentid);
                 intent.putExtra("phpsessid", phpsessid);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         });
 

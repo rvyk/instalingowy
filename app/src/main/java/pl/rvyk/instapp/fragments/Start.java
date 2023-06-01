@@ -63,8 +63,9 @@ public class Start extends Fragment {
 
                 Intent intent = new Intent(getContext(), SolvingActivity.class);
                 intent.putExtras(bundle);
-
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
         destroyAcc.setOnClickListener(new View.OnClickListener() {
