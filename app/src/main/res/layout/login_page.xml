@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/purple_500"
+        android:scaleX="-0.3"
+        android:scaleY="-0.3"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/loginForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/loginTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_title"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            tools:layout_editor_absoluteX="137dp"
+            tools:layout_editor_absoluteY="206dp" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/instaLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:ems="10"
+            android:inputType="text"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="376dp" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/instaPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:ems="10"
+            android:inputType="textPassword"
+            tools:layout_editor_absoluteX="100dp"
+            tools:layout_editor_absoluteY="297dp" />
+
+        <Button
+            android:id="@+id/loginin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="80dp"
+            android:text="@string/login_title"
+            tools:layout_editor_absoluteX="140dp"
+            tools:layout_editor_absoluteY="465dp" />
+    </LinearLayout>
+    
+</RelativeLayout>
