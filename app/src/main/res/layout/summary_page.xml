@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -16,7 +14,7 @@
         android:visibility="visible" />
 
     <LinearLayout
-        android:id="@+id/loginForm"
+        android:id="@+id/summary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -25,43 +23,44 @@
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/loginTitle"
+            android:id="@+id/answerStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_title"
+            android:text="Poprawnie"
             android:textAlignment="center"
-            android:textSize="40dp"
-            tools:layout_editor_absoluteX="137dp"
-            tools:layout_editor_absoluteY="206dp" />
+            android:textSize="40dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/instaLogin"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/readyAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:ems="10"
-            android:inputType="text"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="376dp" />
+            android:text="Odpowiedź:"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/instaPass"
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="297dp" />
+            android:text="Całe zdanie"
+            android:textAlignment="center"
+            android:textSize="20dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/readyAnswerText"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_height="wrap_content"
+            android:text="Tutaj odpowiedź"
+            android:textFontWeight="700"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <Button
-            android:id="@+id/loginin"
+            android:id="@+id/continueButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="80dp"
-            android:text="@string/login_title"
-            tools:layout_editor_absoluteX="140dp"
-            tools:layout_editor_absoluteY="465dp" />
+            android:text="Przejdź dalej" />
     </LinearLayout>
-
 </RelativeLayout>

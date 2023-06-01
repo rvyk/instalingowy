@@ -15,11 +15,12 @@ import android.widget.TextView;
 
 import pl.rvyk.instapp.MainActivity;
 import pl.rvyk.instapp.R;
+import pl.rvyk.instapp.SolvingActivity;
 
 public class Start extends Fragment {
 
     private TextView loginTextView, passwordTextView, appidTextView, childidTextView, phpsessidTextView, buttonTextView;
-    private Button destroyAcc;
+    private Button destroyAcc, startButton;
     private SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,23 +35,38 @@ public class Start extends Fragment {
         phpsessidTextView = view.findViewById(R.id.phpsessidTextView);
         destroyAcc = view.findViewById(R.id.destroyAcc);
         buttonTextView = view.findViewById(R.id.sessionStatus);
+        startButton = view.findViewById(R.id.startButton);
 
         sharedPreferences = requireActivity().getSharedPreferences("Account1", Context.MODE_PRIVATE);
 
         String login = sharedPreferences.getString("login", "");
         String password = sharedPreferences.getString("password", "");
         String appid = sharedPreferences.getString("appid", "");
-        String childid = sharedPreferences.getString("studentid", "");
+        String studentid = sharedPreferences.getString("studentid", "");
         String phpsessid = sharedPreferences.getString("phpsessid", "");
         String buttonText = sharedPreferences.getString("buttontext", "");
 
         loginTextView.setText(login);
         passwordTextView.setText(password);
         appidTextView.setText(appid);
-        childidTextView.setText(childid);
+        childidTextView.setText(studentid);
         phpsessidTextView.setText(phpsessid);
         buttonTextView.setText(buttonText);
 
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("appid", appid);
+                bundle.putString("studentid", studentid);
+                bundle.putString("phpsessid", phpsessid);
+
+                Intent intent = new Intent(getContext(), SolvingActivity.class);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
         destroyAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

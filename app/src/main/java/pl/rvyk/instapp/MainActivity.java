@@ -19,7 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
             String savedLogin = sharedPreferences.getString(KEY_LOGIN, "");
             String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
 
-            // Automatyczne logowanie
             login(savedLogin, savedPassword);
         } else {
             progressBar.setVisibility(View.GONE);

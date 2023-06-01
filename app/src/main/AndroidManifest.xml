@@ -29,6 +29,8 @@
                 android:value="" />
         </activity>
         <activity android:name=".UserInterface" />
+        <activity android:name=".SolvingActivity" />
+        <activity android:name=".SummaryActivity" />
     </application>
 
 </manifest>

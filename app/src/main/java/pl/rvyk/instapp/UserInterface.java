@@ -1,6 +1,7 @@
 package pl.rvyk.instapp;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -18,7 +19,6 @@ public class UserInterface extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tab_layout);
         viewPager2 = findViewById(R.id.view_pager);
-
 
         pageAdapter = new PageAdapter(this);
         viewPager2.setAdapter(pageAdapter);

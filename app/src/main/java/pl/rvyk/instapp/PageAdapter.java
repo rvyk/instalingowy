@@ -1,7 +1,5 @@
 package pl.rvyk.instapp;
 
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -28,7 +26,7 @@ public class PageAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-               return new Start();
+                return new Start();
 
             case 1:
                 return new Accounts();
