@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +20,8 @@ import pl.rvyk.instapp.SolvingActivity;
 
 public class Start extends Fragment {
 
-    private TextView loginTextView, passwordTextView, appidTextView, childidTextView, phpsessidTextView, buttonTextView;
-    private Button destroyAcc, startButton;
+    private TextView loginTextView, sessionStatusView;
+    private Button logoutButton, startButton;
     private SharedPreferences sharedPreferences;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,13 +29,9 @@ public class Start extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_start, container, false);
 
-        loginTextView = view.findViewById(R.id.loginTextView);
-        passwordTextView = view.findViewById(R.id.passwordTextView);
-        appidTextView = view.findViewById(R.id.appidTextView);
-        childidTextView = view.findViewById(R.id.childidTextView);
-        phpsessidTextView = view.findViewById(R.id.phpsessidTextView);
-        destroyAcc = view.findViewById(R.id.destroyAcc);
-        buttonTextView = view.findViewById(R.id.sessionStatus);
+        loginTextView = view.findViewById(R.id.nickname);
+        logoutButton = view.findViewById(R.id.logoutButton);
+        sessionStatusView = view.findViewById(R.id.sessionStatus);
         startButton = view.findViewById(R.id.startButton);
 
         sharedPreferences = requireActivity().getSharedPreferences("Account1", Context.MODE_PRIVATE);
@@ -44,14 +41,15 @@ public class Start extends Fragment {
         String appid = sharedPreferences.getString("appid", "");
         String studentid = sharedPreferences.getString("studentid", "");
         String phpsessid = sharedPreferences.getString("phpsessid", "");
-        String buttonText = sharedPreferences.getString("buttontext", "");
+        boolean todaySessionCompleted = sharedPreferences.getBoolean("todaySessionCompleted", false);
 
         loginTextView.setText(login);
-        passwordTextView.setText(password);
-        appidTextView.setText(appid);
-        childidTextView.setText(studentid);
-        phpsessidTextView.setText(phpsessid);
-        buttonTextView.setText(buttonText);
+
+        if (todaySessionCompleted == true) {
+            sessionStatusView.setText(R.string.today_session_completed);
+        } else {
+            sessionStatusView.setText(R.string.today_session_uncompleted);
+        }
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +66,7 @@ public class Start extends Fragment {
                 getActivity().finish();
             }
         });
-        destroyAcc.setOnClickListener(new View.OnClickListener() {
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();

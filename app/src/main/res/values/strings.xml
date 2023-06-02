@@ -8,4 +8,18 @@
     <string name="login_button">Zaloguj się</string>
     <string name="text_above_login_form">Użyj danych logowania z Instaling.pl</string>
 
+    <!--    Start Fragment-->
+    <string name="start_title">Rozpocznij</string>
+    <string name="logged_as">Zalogowano jako</string>
+    <string name="today_session">Dzisiejsza sesja</string>
+    <string name="today_session_completed">wykonana</string>
+    <string name="today_session_uncompleted">nie wykonana</string>
+    <string name="start_button">Rozpocznij sesję</string>
+    <string name="logout_button">Wyloguj się</string>
+
+    <!--    User interface-->
+    <string name="fragment_start">Rozpocznij</string>
+    <string name="fragment_accounts">Konta</string>
+    <string name="fragment_settings">Ustawienia</string>
+
 </resources>

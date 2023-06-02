@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_PHPSESSID = "phpsessid";
     private static final String KEY_APPID = "appid";
     private static final String KEY_STUDENTID = "studentid";
-    private static final String KEY_BUTTONTEXT = "buttontext";
+    private static final String KEY_SESSIONCOMPLETED = "todaySessionCompleted";
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                                 editor.putString(KEY_PHPSESSID, response.getString("phpsessid"));
                                 editor.putString(KEY_APPID, response.getString(("appid")));
                                 editor.putString(KEY_STUDENTID, response.getString("studentid"));
-                                editor.putString(KEY_BUTTONTEXT, response.getString("buttonText"));
+                                editor.putBoolean(KEY_SESSIONCOMPLETED, response.getBoolean("todaySessionCompleted"));
                                 editor.apply();
 
                                 Intent intent = new Intent(MainActivity.this, UserInterface.class);
