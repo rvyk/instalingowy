@@ -37,7 +37,6 @@ public class GenerateQuestionRequestHelper {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("res", response.toString());
                         JSONObject questionObject = response.optJSONObject("question");
                         boolean ended = response.optBoolean("ended");
                         if (questionObject != null) {

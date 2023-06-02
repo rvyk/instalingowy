@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import pl.rvyk.instapp.MainActivity;
@@ -23,6 +25,9 @@ public class Start extends Fragment {
     private TextView loginTextView, sessionStatusView;
     private Button logoutButton, startButton;
     private SharedPreferences sharedPreferences;
+    private ProgressBar progressbar;
+    private LinearLayout content;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,6 +38,8 @@ public class Start extends Fragment {
         logoutButton = view.findViewById(R.id.logoutButton);
         sessionStatusView = view.findViewById(R.id.sessionStatus);
         startButton = view.findViewById(R.id.startButton);
+        progressbar = view.findViewById(R.id.progressBar);
+        content = view.findViewById(R.id.start_content);
 
         sharedPreferences = requireActivity().getSharedPreferences("Account1", Context.MODE_PRIVATE);
 
@@ -50,6 +57,9 @@ public class Start extends Fragment {
         } else {
             sessionStatusView.setText(R.string.today_session_uncompleted);
         }
+
+        progressbar.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override

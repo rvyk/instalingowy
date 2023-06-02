@@ -19,13 +19,14 @@
         android:indeterminateTint="@color/textColor"
         android:scaleX="-0.3"
         android:scaleY="-0.3"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <LinearLayout
+        android:id="@+id/start_content"
         android:layout_width="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView

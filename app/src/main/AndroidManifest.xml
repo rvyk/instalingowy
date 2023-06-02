@@ -30,7 +30,7 @@
                 android:value="" />
         </activity>
         <activity android:name=".UserInterface" />
-        <activity android:name=".SolvingActivity" />
+        <activity android:windowSoftInputMode="adjustResize" android:name=".SolvingActivity" />
         <activity android:name=".SummaryActivity" />
     </application>
 

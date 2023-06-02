@@ -71,7 +71,6 @@ public class SolvingActivity extends AppCompatActivity {
                     SendAnswerRequestHelper.sendAnswerRequest(SolvingActivity.this, phpSessionId, appId, studentId, questionIdentificator, answered, login, new SendAnswerRequestHelper.SendAnswerResponseListener() {
                         @Override
                         public void onSuccess(Integer grade, String word, String usageExample) {
-                            Toast.makeText(SolvingActivity.this, "Grade" + grade, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(SolvingActivity.this, SummaryActivity.class);
                             intent.putExtra("grade", grade);
                             intent.putExtra("word", word);
@@ -91,7 +90,6 @@ public class SolvingActivity extends AppCompatActivity {
             GenerateQuestionRequestHelper.sendGenerateQuestionRequest(this, phpSessionId, appId, studentId, new GenerateQuestionRequestHelper.GenerateQuestionResponseListener() {
                 @Override
                 public void onSuccess(String question, String usageExample, String questionId) {
-                    Toast.makeText(SolvingActivity.this, question, Toast.LENGTH_SHORT).show();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

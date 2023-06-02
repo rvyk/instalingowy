@@ -22,4 +22,16 @@
     <string name="fragment_accounts">Konta</string>
     <string name="fragment_settings">Ustawienia</string>
 
+
+    <!--    Solving page-->
+    <string name="solving_title">Uzupełnij zdanie</string>
+    <string name="translate_text">Przetłumacz:</string>
+    <string name="your_answer">Twoja odpowiedź</string>
+    <string name="send_answer">Wyślij odpowiedź</string>
+
+    <!--    Summary page-->
+    <string name="summary_answer">Odpowiedź</string>
+    <string name="full_text">Całe zdanie:</string>
+    <string name="continue_button">Przejdź dalej</string>
+
 </resources>
