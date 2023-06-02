@@ -1,67 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/bg">
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:indeterminateTint="@color/purple_500"
+        android:elevation="20dp"
+        android:indeterminateTint="@color/textColor"
         android:scaleX="-0.3"
         android:scaleY="-0.3"
         android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/loginForm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
         android:gravity="center"
+        android:orientation="vertical"
         android:visibility="gone"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/loginTitle"
+        <LinearLayout
+            android:id="@+id/imageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:src="@drawable/instaling_face"/>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_title"
-            android:textAlignment="center"
-            android:textSize="40dp"
-            tools:layout_editor_absoluteX="137dp"
-            tools:layout_editor_absoluteY="206dp" />
+            android:layout_margin="30dp"
+            app:cardCornerRadius="30dp"
+            android:layout_below="@+id/imageContainer"
+            app:cardElevation="10dp"
+            app:cardBackgroundColor="?attr/colorSecondary">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/instaLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:ems="10"
-            android:inputType="text"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="376dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/instaPass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:ems="10"
-            android:inputType="textPassword"
-            tools:layout_editor_absoluteX="100dp"
-            tools:layout_editor_absoluteY="297dp" />
+                <TextView
+                    android:id="@+id/loginTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/login_title"
+                    android:textAlignment="center"
+                    android:textColor="@color/textColor"
+                    android:textSize="40dp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="137dp"
+                    tools:layout_editor_absoluteY="206dp" />
 
-        <Button
-            android:id="@+id/loginin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="80dp"
-            android:text="@string/login_title"
-            tools:layout_editor_absoluteX="140dp"
-            tools:layout_editor_absoluteY="465dp" />
+                <EditText
+                    android:id="@+id/instaLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:layout_marginVertical="12dp"
+                    android:background="@drawable/edittext"
+                    android:drawablePadding="10dp"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_person_24"
+                    android:inputType="textPersonName"
+                    android:hint="@string/login_input"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/textColor"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/instaPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:ems="10"
+                    android:layout_marginVertical="12dp"
+                    android:background="@drawable/edittext"
+                    android:drawablePadding="10dp"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/ic_baseline_lock_24"
+                    android:inputType="textPassword"
+                    android:hint="@string/password_input"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/textColor"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="15dp"
+                    android:backgroundTint="@color/buttonColor"
+                    android:text="@string/login_button"
+                    android:textColor="@color/textColor"
+                    android:textSize="18dp"
+                    app:cornerRadius="20dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/text_above_login_form"
+        android:textAlignment="center"
+        android:textColor="@color/textColor"
+        android:layout_marginBottom="20dp"
+        android:textSize="18sp" />
+
+</LinearLayout>

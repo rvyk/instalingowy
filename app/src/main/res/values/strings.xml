@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Instapp</string>
 
-    <!--    login page-->
-    <string name="login_title">Zaloguj się</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--    Login screen-->
+    <string name="login_title">Logowanie</string>
+    <string name="login_input">Login</string>
+    <string name="password_input">Hasło</string>
+    <string name="login_button">Zaloguj się</string>
+    <string name="text_above_login_form">Użyj danych logowania z Instaling.pl</string>
+
 </resources>

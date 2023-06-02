@@ -46,9 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         instaLogin = findViewById(R.id.instaLogin);
         instaPass = findViewById(R.id.instaPass);
-        loginBtn = findViewById(R.id.loginin);
+        loginBtn = findViewById(R.id.loginButton);
         progressBar = findViewById(R.id.progressBar);
-        loginTitle = findViewById(R.id.loginTitle);
         linearLayout = findViewById(R.id.loginForm);
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -94,12 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         try {
+
                             boolean success = response.getBoolean("success");
                             if (success) {
                                 Toast.makeText(MainActivity.this, "Zalogowano pomyślnie", Toast.LENGTH_SHORT).show();
 
-                                // Zapisywanie danych logowania do SharedPreferences
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString(KEY_LOGIN, login);
                                 editor.putString(KEY_PASSWORD, password);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             } else {
-                                Toast.makeText(MainActivity.this, "Błąd logowania", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Niepoprawne dane logowania", Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 linearLayout.setVisibility(View.VISIBLE);
                             }
@@ -127,7 +127,11 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Błąd komunikacji z serwerem", Toast.LENGTH_SHORT).show();
+                        if (error.networkResponse != null && error.networkResponse.statusCode == 403) {
+                            Toast.makeText(MainActivity.this, "Niepoprawne dane logowania", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Błąd komunikacji z serwerem", Toast.LENGTH_SHORT).show();
+                        }
                         progressBar.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.VISIBLE);
                     }
