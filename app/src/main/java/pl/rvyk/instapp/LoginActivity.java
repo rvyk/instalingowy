@@ -3,8 +3,11 @@ package pl.rvyk.instapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,17 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.elevation.SurfaceColors;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     EditText instaLogin, instaPass;
     Button loginBtn;
@@ -42,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.login_page);
 
         instaLogin = findViewById(R.id.instaLogin);
@@ -98,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
                             boolean success = response.getBoolean("success");
                             if (success) {
-                                Toast.makeText(MainActivity.this, "Zalogowano pomyślnie", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Zalogowano pomyślnie", Toast.LENGTH_SHORT).show();
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString(KEY_LOGIN, login);
@@ -109,11 +116,11 @@ public class MainActivity extends AppCompatActivity {
                                 editor.putBoolean(KEY_SESSIONCOMPLETED, response.getBoolean("todaySessionCompleted"));
                                 editor.apply();
 
-                                Intent intent = new Intent(MainActivity.this, UserInterface.class);
+                                Intent intent = new Intent(LoginActivity.this, UserInterface.class);
                                 startActivity(intent);
                                 finish();
                             } else {
-                                Toast.makeText(MainActivity.this, "Niepoprawne dane logowania", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Niepoprawne dane logowania", Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 linearLayout.setVisibility(View.VISIBLE);
                             }
@@ -128,15 +135,15 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error.networkResponse != null && error.networkResponse.statusCode == 403) {
-                            Toast.makeText(MainActivity.this, "Niepoprawne dane logowania", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Niepoprawne dane logowania", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(MainActivity.this, "Błąd komunikacji z serwerem", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Błąd komunikacji z serwerem", Toast.LENGTH_SHORT).show();
                         }
                         progressBar.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.VISIBLE);
                     }
                 }
         );
-        Volley.newRequestQueue(MainActivity.this).add(request);
+        Volley.newRequestQueue(LoginActivity.this).add(request);
     }
 }
