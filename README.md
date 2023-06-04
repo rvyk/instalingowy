@@ -9,14 +9,18 @@ Nieoficjalna mobilna wersja [Instaling.pl](https://instaling.pl) do ćwiczenia s
 * ze strony Instaling:
     * rozpocznij sesję
 
-## Zbudowana za pomocą
+## Zbudowana przy pomocy
 
 * [ezinstaling-api](https://github.com/bettervulcan/ezinstaling-api)
 
 ## Zrzuty ekranu
 
-![App Screenshot1](https://i.imgur.com/TMkR6Ky.jpg)
-![App Screenshot2](https://i.imgur.com/RcNEPJi.jpg)
+<p float="left">
+  <img src="https://i.imgur.com/TMkR6Ky.jpg" width="100" />
+  <img src="https://i.imgur.com/RcNEPJi.jpg" width="100" /> 
+</p>
+
+<hr>
 
 Maintained by [rvyk](https://github.com/rvyk).
 <br>
