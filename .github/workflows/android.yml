@@ -1,5 +1,4 @@
 name: Build & Publish Release APK
-
 on: 
   push:
     branches:
@@ -19,8 +18,7 @@ jobs:
       run: chmod +x ./gradlew
     - name: Build Release APK
       run: ./gradlew assembleRelease
-    - name: Releasing using Hub
-      uses: r0user/release-apk@main
-      env:
-       GITHUB_TOKEN: ${{ secrets.TOKEN }}
-       APP_FOLDER: app
+    - name: Release APK Publisher
+      uses: nightcrawler-/action-release-apk@1.0.2
+      with:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
