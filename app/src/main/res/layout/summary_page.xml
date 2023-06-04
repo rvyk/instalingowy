@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/bg">
+    android:gravity="center">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -15,7 +14,6 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:elevation="20dp"
-        android:indeterminateTint="@color/textColor"
         android:scaleX="-0.3"
         android:scaleY="-0.3"
         android:visibility="visible" />
@@ -28,15 +26,14 @@
         android:visibility="gone"
         android:layout_height="wrap_content">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            app:cardCornerRadius="30dp"
             android:layout_below="@+id/imageContainer"
-            app:cardElevation="10dp"
-            app:cardBackgroundColor="?attr/colorSecondary">
+            app:strokeWidth="0dp"
+            app:cardElevation="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,13 +42,12 @@
                 android:layout_gravity="center_horizontal"
                 android:padding="24dp">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/answerStatus"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="..."
                     android:textAlignment="center"
-                    android:textColor="@color/textColor"
                     android:textSize="40dp"
                     android:textStyle="bold"
                     tools:layout_editor_absoluteX="137dp"
@@ -63,59 +59,55 @@
                     android:gravity="center"
                     android:layout_marginVertical="5dp"
                     android:layout_height="wrap_content">
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:layout_marginRight="4dp"
                         android:text="@string/summary_answer"
                         android:textAlignment="center"
-                        android:textColor="@color/textColor"
                         android:textSize="18sp" />
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/readyAnswer"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="..."
                         android:gravity="center"
                         android:textAlignment="center"
-                        android:textColor="@color/textColor"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:text="@string/full_text"
                     android:textAlignment="center"
-                    android:textColor="@color/textColor"
                     android:textStyle="bold"
                     android:textSize="18sp" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/readyAnswerText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="3dp"
                     android:text="..."
                     android:textAlignment="center"
-                    android:textColor="@color/textColor"
                     android:textSize="18sp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:id="@+id/continueButton"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="15dp"
-                    android:backgroundTint="@color/light_red"
+                    app:icon="@drawable/ic_baseline_keyboard_double_arrow_right_24"
+                    app:iconGravity="end"
                     android:text="@string/continue_button"
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                    app:cornerRadius="20dp" />
+                    android:textSize="18dp" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </LinearLayout>

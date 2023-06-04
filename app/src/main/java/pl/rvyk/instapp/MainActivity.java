@@ -140,4 +140,3 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(MainActivity.this).add(request);
     }
 }
-

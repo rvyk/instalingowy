@@ -1,16 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.Instapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+<resources>
+    <style name="Instapp" parent="Theme.Material3.DynamicColors.Dark">
         <item name="android:autofilledHighlight">@android:color/transparent</item>
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <item name="colorSecondary">#181818</item>
-        <item name="colorSecondaryVariant">#EBF1FD</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <item name="android:statusBarColor">@color/black</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/material_dynamic_neutral10</item>
     </style>
 
-    <color name="buttonColor">#121212</color>
-    <color name="textColor">#f4f4f4</color>
-
+    <color name="logoutButton">@color/material_dynamic_secondary90</color>
 </resources>

@@ -3,7 +3,7 @@
 
     <!--    Login screen-->
     <string name="login_title">Logowanie</string>
-    <string name="login_input">Login</string>
+    <string name="login_input">Nazwa użytkownika</string>
     <string name="password_input">Hasło</string>
     <string name="login_button">Zaloguj się</string>
     <string name="text_above_login_form">Użyj danych logowania z Instaling.pl</string>

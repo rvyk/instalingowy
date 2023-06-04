@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabSelectedTextColor="@color/light_red"
-        app:tabIndicatorColor="@color/light_red"
         android:id="@+id/tab_layout">
 
         <com.google.android.material.tabs.TabItem
+            android:icon="@drawable/ic_baseline_home_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/fragment_start"/>
         <com.google.android.material.tabs.TabItem
+            android:icon="@drawable/ic_baseline_person_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/fragment_accounts"/>
         <com.google.android.material.tabs.TabItem
+            android:icon="@drawable/ic_baseline_settings_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/fragment_settings"/>
