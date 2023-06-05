@@ -10,6 +10,7 @@
     <string name="network_error">Brak połączenia z internetem</string>
     <string name="invalid_credentials">Niepoprawne dane logowania</string>
     <string name="unkown_error">Wystąpił nieokreślony błąd</string>
+    <string name="api_host_error">Serwer API jest chwilowo niedostępny</string>
 
     <!--    Start Fragment-->
     <string name="start_title">Rozpocznij</string>

@@ -135,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (error.networkResponse != null && error.networkResponse.statusCode == 403) {
                             SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
                         } else {
-                            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.network_error), true);
+                            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.api_host_error), true);
                         }
                         progressBar.setVisibility(View.GONE);
                         linearLayout.setVisibility(View.VISIBLE);
