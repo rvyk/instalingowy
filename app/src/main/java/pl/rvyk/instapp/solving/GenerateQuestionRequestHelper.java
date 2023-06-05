@@ -17,7 +17,7 @@ public class GenerateQuestionRequestHelper {
 
     public interface GenerateQuestionResponseListener {
         void onSuccess(String question, String usageExample, String questionId);
-        void onFinish(boolean ended);
+        void onFinish(boolean ended, String instalingDays, String words, String correct);
         void onError(Throwable error);
     }
 
@@ -45,7 +45,11 @@ public class GenerateQuestionRequestHelper {
                             String usageExample = questionObject.optString("usage_example");
                             listener.onSuccess(question, usageExample, questionId);
                         } else if (ended == true) {
-                            listener.onFinish(ended);
+                            try {
+                                listener.onFinish(ended, response.getString("instalDays"), response.getString("words"), response.getString("correct"));
+                            } catch (Exception e) {
+                                listener.onError(e);
+                            }
                         } else {
                             Throwable throwable = new Throwable("Question object is null");
                             listener.onError(throwable);

@@ -25,7 +25,8 @@
     <string name="fragment_start">Rozpocznij</string>
     <string name="fragment_accounts">Konta</string>
     <string name="fragment_settings">Ustawienia</string>
-
+    <string name="snackbar_session_finished">Sesja zakończona</string>
+    <string name="snackbar_session_finished_action">Podsumowanie</string>
 
     <!--    Solving page-->
     <string name="solving_title">Uzupełnij zdanie</string>

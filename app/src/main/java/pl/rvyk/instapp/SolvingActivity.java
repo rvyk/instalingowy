@@ -121,10 +121,14 @@ public class SolvingActivity extends AppCompatActivity {
                     });
                 }
                 @Override
-                public void onFinish(boolean ended) {
+                public void onFinish(boolean ended, String instalingDays, String words, String correct) {
                     SnackbarController.showSnackbar(SolvingActivity.this, mainLinearContent, null, getResources().getString(R.string.solving_finished), false);
                     Intent intent = new Intent(SolvingActivity.this, UserInterface.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("showSummary", true);
+                    intent.putExtra("instalingDays", instalingDays);
+                    intent.putExtra("words", words);
+                    intent.putExtra("correct", correct);
                     startActivity(intent);
                     finish();
                 }
