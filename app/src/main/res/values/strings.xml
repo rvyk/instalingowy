@@ -7,6 +7,9 @@
     <string name="password_input">Hasło</string>
     <string name="login_button">Zaloguj się</string>
     <string name="text_above_login_form">Użyj danych logowania z Instaling.pl</string>
+    <string name="network_error">Brak połączenia z internetem</string>
+    <string name="invalid_credentials">Niepoprawne dane logowania</string>
+    <string name="unkown_error">Wystąpił nieokreślony błąd</string>
 
     <!--    Start Fragment-->
     <string name="start_title">Rozpocznij</string>
@@ -33,5 +36,22 @@
     <string name="summary_answer">Odpowiedź</string>
     <string name="full_text">Całe zdanie:</string>
     <string name="continue_button">Przejdź dalej</string>
+
+    <!--    Report bugs-->
+    <string name="reportSucess">Dziękujemy za wysłanie informacji o błędzie</string>
+    <string name="reportFailure">Zgłaszanie błędów jest chwilowo niemożliwe</string>
+
+    <!--    Clipboard label-->
+    <string name="clipboardLabel">Błąd</string>
+
+
+    <!--    Snackbar-->
+    <string name="snackbarDetails">Szczegóły</string>
+
+    <!--    report bug dialog-->
+    <string name="reportDialogCancel">Anuluj</string>
+    <string name="reportDialogCopy">Kopiuj</string>
+    <string name="reportDialogReport">Zgłoś błąd</string>
+    <string name="reportDialogCopySuccess">Błąd skopiowany do schowka</string>
 
 </resources>
