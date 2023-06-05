@@ -3,6 +3,8 @@ package pl.rvyk.instapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import pl.rvyk.instapp.solving.GenerateQuestionRequestHelper;
 import pl.rvyk.instapp.solving.SendAnswerRequestHelper;
+import pl.rvyk.instapp.utils.SnackbarController;
 
 public class SolvingActivity extends AppCompatActivity {
 
@@ -24,9 +27,8 @@ public class SolvingActivity extends AppCompatActivity {
 
     TextView translations, translateText;
     EditText answer;
-    Button sendAnswerButton;
-    ProgressBar progressBar;
-    LinearLayout sendAnswer, summary;
+    Button sendAnswerButton, refreshButton;
+    LinearLayout sendAnswer, summary, mainLinearContent, progressBar, noConnection;
     private Button viewById;
     private String questionIdentificator;
 
@@ -54,6 +56,23 @@ public class SolvingActivity extends AppCompatActivity {
         summary = findViewById(R.id.summary);
         sendAnswerButton = findViewById(R.id.sendAnswerButton);
         answer = findViewById(R.id.answer);
+        mainLinearContent = findViewById(R.id.solving_page);
+        noConnection = findViewById(R.id.noConnection);
+        refreshButton = findViewById(R.id.refresh);
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        boolean isNetworkAvailable = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        if (!isNetworkAvailable) {
+            noConnection.setVisibility(View.VISIBLE);
+            refreshButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    refreshContent();
+                }
+            });
+        }
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -81,8 +100,8 @@ public class SolvingActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onError(String error) {
-                            Toast.makeText(SolvingActivity.this, "Wystąpił błąd" + error, Toast.LENGTH_SHORT).show();
+                        public void onError(Throwable error) {
+                            SnackbarController.showSnackbar(SolvingActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
                         }
                     });
                 }
@@ -103,20 +122,15 @@ public class SolvingActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFinish(boolean ended) {
-                    Toast.makeText(SolvingActivity.this, "Sesja zakończona", Toast.LENGTH_SHORT).show();
+                    SnackbarController.showSnackbar(SolvingActivity.this, mainLinearContent, null, getResources().getString(R.string.solving_finished), false);
                     Intent intent = new Intent(SolvingActivity.this, UserInterface.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 }
                 @Override
-                public void onError(String error) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Obsługa błędu
-                        }
-                    });
+                public void onError(Throwable error) {
+                    SnackbarController.showSnackbar(SolvingActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
                 }
             });
         }

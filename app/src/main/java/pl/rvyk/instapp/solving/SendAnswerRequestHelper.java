@@ -17,7 +17,7 @@ public class SendAnswerRequestHelper {
 
     public interface SendAnswerResponseListener {
         void onSuccess(Integer grade, String word, String usageExample);
-        void onError(String error);
+        void onError(Throwable error);
     }
 
     public static void sendAnswerRequest(Context context, String phpSessionId, String appId, String studentId, String questionId, String answer, String login, final SendAnswerResponseListener listener) {
@@ -46,14 +46,16 @@ public class SendAnswerRequestHelper {
                             String usageExample = questionObject.optString("usage_example");
                             listener.onSuccess(grade, word, usageExample);
                         } else {
-                            listener.onError("Output object is null");
+                            Throwable throwable = new Throwable("Output object is null");
+                            listener.onError(throwable);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        listener.onError("VolleyError: " + error.getMessage());
+                        Throwable throwable = new Throwable("VolleyError: " + error.getMessage());
+                        listener.onError(throwable);
                     }
                 });
 

@@ -31,6 +31,7 @@
     <string name="translate_text">Przetłumacz:</string>
     <string name="your_answer">Twoja odpowiedź</string>
     <string name="send_answer">Wyślij odpowiedź</string>
+    <string name="solving_finished">Sesja zakończona</string>
 
     <!--    Summary page-->
     <string name="summary_answer">Odpowiedź</string>

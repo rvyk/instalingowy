@@ -18,7 +18,7 @@ public class GenerateQuestionRequestHelper {
     public interface GenerateQuestionResponseListener {
         void onSuccess(String question, String usageExample, String questionId);
         void onFinish(boolean ended);
-        void onError(String error);
+        void onError(Throwable error);
     }
 
     public static void sendGenerateQuestionRequest(Context context, String phpSessionId, String appId, String studentId, final GenerateQuestionResponseListener listener) {
@@ -47,14 +47,16 @@ public class GenerateQuestionRequestHelper {
                         } else if (ended == true) {
                             listener.onFinish(ended);
                         } else {
-                            listener.onError("Question object is null");
+                            Throwable throwable = new Throwable("Question object is null");
+                            listener.onError(throwable);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        listener.onError("VolleyError: " + error.getMessage());
+                        Throwable throwable = new Throwable("VolleyError: " + error.getMessage());
+                        listener.onError(throwable);
                     }
                 });
 
