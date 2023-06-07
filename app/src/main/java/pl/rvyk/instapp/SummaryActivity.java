@@ -62,7 +62,7 @@ public class SummaryActivity extends AppCompatActivity {
             String usageExample = intent.getStringExtra("usageExample");
 
             Grades grades = Grades.fromGrade(grade);
-            String label = grades.getLabel();
+            String label = grades.getLabel(SummaryActivity.this);
 
             answerStatus.setText(label);
             readyAnswer.setText(word);

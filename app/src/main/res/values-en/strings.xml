@@ -27,9 +27,9 @@
     <string name="your_answer">Your answer</string>
     <string name="send_answer">Send answer</string>
     <string name="solving_finished">Session ended</string>
-    <string name="summary_answer">Answer</string>
+    <string name="summary_answer">Answer:</string>
     <string name="full_text">Entire sentence:</string>
-    <string name="continue_button">Move on</string>
+    <string name="continue_button">Continue</string>
     <string name="reportSucess">Thank you for sending the error message</string>
     <string name="reportFailure">Error reporting is temporarily impossible</string>
     <string name="clipboardLabel">Error</string>
@@ -51,10 +51,15 @@
     <string name="summary_dialog_title">Session summary</string>
     <string name="summary_dialog_for">for</string>
     <string name="summary_dialog_working_days">Working days:</string>
-    <string name="summary_dialog_words">Words made:</string>
+    <string name="summary_dialog_words">Correct words:</string>
     <string name="extra_info_repo">Github repository</string>
     <string name="extra_info_discord">Discord server</string>
     <string name="extra_info_app_version">App version</string>
     <string name="extra_info_instaling_version">Version of Instaling.pl site</string>
     <string name="extra_info_api_version">API version</string>
+    <string name="grades_good">Good</string>
+    <string name="grades_incorrect">Incorrect</string>
+    <string name="grades_synonym">Synonym</string>
+    <string name="grades_typo">Typo</string>
+    <string name="grades_letter_case">Wrong letter case</string>
 </resources>

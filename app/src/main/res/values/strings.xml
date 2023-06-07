@@ -36,7 +36,7 @@
     <string name="solving_finished">Sesja zakończona</string>
 
     <!--    Summary page-->
-    <string name="summary_answer">Odpowiedź</string>
+    <string name="summary_answer">Odpowiedź:</string>
     <string name="full_text">Całe zdanie:</string>
     <string name="continue_button">Przejdź dalej</string>
 
@@ -71,12 +71,17 @@
     <string name="summary_dialog_title">Podsumowanie sesji</string>
     <string name="summary_dialog_for">dla</string>
     <string name="summary_dialog_working_days">Ilość dni pracy:</string>
-    <string name="summary_dialog_words">Wykonane słówka:</string>
+    <string name="summary_dialog_words">Poprawne słowa:</string>
     <string name="extra_info_repo">Repozytorium Github</string>
     <string name="extra_info_discord">Serwer Discord</string>
     <string name="extra_info_app_version">Wersja aplikacji</string>
     <string name="extra_info_instaling_version">Wersja strony Instaling.pl</string>
     <string name="extra_info_api_version">Wersja API</string>
+    <string name="grades_good">Dobrze</string>
+    <string name="grades_incorrect">Niepoprawnie</string>
+    <string name="grades_synonym">Synonim</string>
+    <string name="grades_typo">Literówka</string>
+    <string name="grades_letter_case">Zła wielkość liter</string>
     <!-- Preference Titles -->
 
     <!-- Messages Preferences -->
