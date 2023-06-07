@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/language_dialog"
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:tint="?attr/colorSecondary"
+        android:layout_width="match_parent"
+        android:src="@drawable/ic_baseline_language_24"
+        android:layout_height="50dp"/>
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.Material3.HeadlineLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/settings_language"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/language_changer"
+        android:checkedButton="@+id/system_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/system_language"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:text="@string/settings_language_system"/>
+        <RadioButton
+            android:id="@+id/polish_language"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:text="@string/settings_language_polish"/>
+        <RadioButton
+            android:id="@+id/english_language"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:text="@string/settings_language_english"/>
+    </RadioGroup>
+
+</LinearLayout>

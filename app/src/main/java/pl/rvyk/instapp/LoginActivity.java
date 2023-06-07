@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity{
     private static final String KEY_APPID = "appid";
     private static final String KEY_STUDENTID = "studentid";
     private static final String KEY_SESSIONCOMPLETED = "todaySessionCompleted";
+    private static final String KEY_INSTALING_VERSION = "instalingVersion";
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -77,27 +78,27 @@ public class LoginActivity extends AppCompatActivity{
         });
     }
 
-    private void performLogin(String email, String password) {
-        InstalingAPI.loginToInstaling(email, password, new InstalingAPI.InstalingLoginCallback() {
-            @Override
-            public void onLoginResult(boolean success, String message, String phpsessid, String appid, String studentid, String buttonText, boolean todaySessionCompleted) {
-                if (success) {
-                    SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, "Udało sie" + phpsessid, false);
-
-                } else {
-                    SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, "Niepoprawne dane logowania", false);
-
-                }
-            }
-
-            @Override
-            public void onLoginError(String error) {
-                Throwable e = new Throwable(error);
-                SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, e, "Wystąpił błąd", true);
-
-            }
-        });
-    }
+//    private void performLogin(String email, String password) {
+//        InstalingAPI.loginToInstaling(email, password, new InstalingAPI.InstalingLoginCallback() {
+//            @Override
+//            public void onLoginResult(boolean success, String message, String phpsessid, String appid, String studentid, String buttonText, boolean todaySessionCompleted) {
+//                if (success) {
+//                    SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, "Udało sie" + phpsessid, false);
+//
+//                } else {
+//                    SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, "Niepoprawne dane logowania", false);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onLoginError(String error) {
+//                Throwable e = new Throwable(error);
+//                SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, e, "Wystąpił błąd", true);
+//
+//            }
+//        });
+//    }
     private void login(final String login, final String password) {
         progressBar.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.GONE);
@@ -126,9 +127,10 @@ public class LoginActivity extends AppCompatActivity{
                                 editor.putString(KEY_LOGIN, login);
                                 editor.putString(KEY_PASSWORD, password);
                                 editor.putString(KEY_PHPSESSID, response.getString("phpsessid"));
-                                editor.putString(KEY_APPID, response.getString(("appid")));
+                                editor.putString(KEY_APPID, response.getString("appid"));
                                 editor.putString(KEY_STUDENTID, response.getString("studentid"));
                                 editor.putBoolean(KEY_SESSIONCOMPLETED, response.getBoolean("todaySessionCompleted"));
+                                editor.putString(KEY_INSTALING_VERSION, response.getString("instalingVersion"));
                                 editor.apply();
 
                                 Intent intent = new Intent(LoginActivity.this, UserInterface.class);

@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/theme_dialog"
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:tint="?attr/colorSecondary"
+        android:layout_width="match_parent"
+        android:src="@drawable/ic_outline_palette_24"
+        android:layout_height="50dp"/>
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.Material3.HeadlineLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="@string/settings_theme"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/theme_changer"
+        android:checkedButton="@+id/system_theme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/system_theme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:text="@string/settings_theme_system"/>
+        <RadioButton
+            android:id="@+id/light_theme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:text="@string/settings_theme_light"/>
+        <RadioButton
+            android:id="@+id/dark_theme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:text="@string/settings_theme_dark"/>
+    </RadioGroup>
+
+</LinearLayout>

@@ -44,4 +44,17 @@
     <string name="settings_language">Language</string>
     <string name="settings_moreInfo">Extra information</string>
     <string name="instaling_version">Instaling.pl version:</string>
+    <string name="settings_language_system">System language</string>
+    <string name="settings_theme_system">System theme</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="summary_dialog_title">Session summary</string>
+    <string name="summary_dialog_for">for</string>
+    <string name="summary_dialog_working_days">Working days:</string>
+    <string name="summary_dialog_words">Words made:</string>
+    <string name="extra_info_repo">Github repository</string>
+    <string name="extra_info_discord">Discord server</string>
+    <string name="extra_info_app_version">App version</string>
+    <string name="extra_info_instaling_version">Version of Instaling.pl site</string>
+    <string name="extra_info_api_version">API version</string>
 </resources>

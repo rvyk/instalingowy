@@ -73,9 +73,9 @@ public class UserInterface extends AppCompatActivity {
                         sharedPreferences = getSharedPreferences("Account1", Context.MODE_PRIVATE);
                         String login = sharedPreferences.getString("login", "");
 
-                        summaryWords.setText("Wykonane słówka: " + UserInterface.this.getIntent().getStringExtra("correct") + "/" + UserInterface.this.getIntent().getStringExtra("words"));
-                        summaryUser.setText(login);
-                        summaryDays.setText("Ilość dni pracy: " + UserInterface.this.getIntent().getStringExtra("instalingDays"));
+                        summaryWords.setText(getResources().getString(R.string.summary_dialog_words) + " " + UserInterface.this.getIntent().getStringExtra("correct") + "/" + UserInterface.this.getIntent().getStringExtra("words"));
+                        summaryUser.setText(getResources().getString(R.string.summary_dialog_for) + " " + login);
+                        summaryDays.setText(getResources().getString(R.string.summary_dialog_working_days) + " " + UserInterface.this.getIntent().getStringExtra("instalingDays"));
 
                         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(UserInterface.this);
                         builder.setView(summaryDialog);

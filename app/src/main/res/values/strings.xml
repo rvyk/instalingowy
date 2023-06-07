@@ -62,6 +62,21 @@
     <string name="settings_language">Język</string>
     <string name="settings_moreInfo">Dodatkowe informacje</string>
     <string name="instaling_version">Wersja Instaling.pl:</string>
+    <string name="settings_language_system">Systemowy język</string>
+    <string name="settings_language_polish" translatable="false">Polski</string>
+    <string name="settings_language_english" translatable="false">English</string>
+    <string name="settings_theme_system">Systemowy motyw</string>
+    <string name="settings_theme_light">Jasny</string>
+    <string name="settings_theme_dark">Ciemny</string>
+    <string name="summary_dialog_title">Podsumowanie sesji</string>
+    <string name="summary_dialog_for">dla</string>
+    <string name="summary_dialog_working_days">Ilość dni pracy:</string>
+    <string name="summary_dialog_words">Wykonane słówka:</string>
+    <string name="extra_info_repo">Repozytorium Github</string>
+    <string name="extra_info_discord">Serwer Discord</string>
+    <string name="extra_info_app_version">Wersja aplikacji</string>
+    <string name="extra_info_instaling_version">Wersja strony Instaling.pl</string>
+    <string name="extra_info_api_version">Wersja API</string>
     <!-- Preference Titles -->
 
     <!-- Messages Preferences -->

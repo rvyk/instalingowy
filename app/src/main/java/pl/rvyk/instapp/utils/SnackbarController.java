@@ -24,6 +24,7 @@ public class SnackbarController {
                 }
             });
         }
+        snackbar.setDuration(5000);
         snackbar.show();
     }
 
