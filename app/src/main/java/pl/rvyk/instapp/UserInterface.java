@@ -2,33 +2,32 @@ package pl.rvyk.instapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 
+import pl.rvyk.instapp.databinding.ActivityUserinterfaceBinding;
+import pl.rvyk.instapp.fragments.Settings;
+import pl.rvyk.instapp.fragments.Start;
 import pl.rvyk.instapp.utils.SnackbarController;
-import pl.rvyk.instapp.utils.Utils;
-import pl.rvyk.instapp.utils.WebhookController;
 
 public class UserInterface extends AppCompatActivity {
 
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-    PageAdapter pageAdapter;
-    RelativeLayout content;
+    ActivityUserinterfaceBinding binding;
+
+
+    ConstraintLayout content;
 
     TextView summaryWords, summaryDays, summaryUser;
 
@@ -37,38 +36,23 @@ public class UserInterface extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_userinterface);
+        binding = ActivityUserinterfaceBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager2 = findViewById(R.id.view_pager);
         content = findViewById(R.id.userinterface);
+        replaceFragment(new Start());
 
-        pageAdapter = new PageAdapter(this);
-        viewPager2.setAdapter(pageAdapter);
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager2.setCurrentItem(tab.getPosition());
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.fragmentHome:
+                    replaceFragment(new Start());
+                    break;
+                case R.id.fragmentSettings:
+                    replaceFragment(new Settings());
+                    break;
             }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                tabLayout.getTabAt(position).select();
-            }
+            return true;
         });
 
         boolean showSummary = getIntent().getBooleanExtra("showSummary", false);
@@ -106,5 +90,14 @@ public class UserInterface extends AppCompatActivity {
             }
         }
     }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
+
+    }
+
 }
 

@@ -22,15 +22,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+import pl.rvyk.instapp.api.InstalingAPI;
 import pl.rvyk.instapp.utils.SnackbarController;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     EditText instaLogin, instaPass;
     Button loginBtn;
     ProgressBar progressBar;
-    TextView loginTitle;
     LinearLayout linearLayout, mainLinearContent;
     private static final String SHARED_PREF_NAME = "Account1";
     private static final String KEY_LOGIN = "login";
@@ -70,14 +69,39 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String login = instaLogin.getText().toString();
                 String password = instaPass.getText().toString();
+
                 login(login, password);
+
+//                performLogin(login, password);
             }
         });
     }
 
+    private void performLogin(String email, String password) {
+        InstalingAPI.loginToInstaling(email, password, new InstalingAPI.InstalingLoginCallback() {
+            @Override
+            public void onLoginResult(boolean success, String message, String phpsessid, String appid, String studentid, String buttonText, boolean todaySessionCompleted) {
+                if (success) {
+                    SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, "Udało sie" + phpsessid, false);
+
+                } else {
+                    SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, "Niepoprawne dane logowania", false);
+
+                }
+            }
+
+            @Override
+            public void onLoginError(String error) {
+                Throwable e = new Throwable(error);
+                SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, e, "Wystąpił błąd", true);
+
+            }
+        });
+    }
     private void login(final String login, final String password) {
         progressBar.setVisibility(View.VISIBLE);
         linearLayout.setVisibility(View.GONE);
+
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("login", login);

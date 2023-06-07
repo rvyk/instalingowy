@@ -15,7 +15,7 @@
     <!--    Start Fragment-->
     <string name="start_title">Rozpocznij</string>
     <string name="logged_as">Zalogowano jako</string>
-    <string name="today_session">Dzisiejsza sesja</string>
+    <string name="today_session">Dzisiejsza sesja jest</string>
     <string name="today_session_completed">wykonana</string>
     <string name="today_session_uncompleted">nie wykonana</string>
     <string name="start_button">Rozpocznij sesję</string>
@@ -56,5 +56,21 @@
     <string name="reportDialogCopy">Kopiuj</string>
     <string name="reportDialogReport">Zgłoś błąd</string>
     <string name="reportDialogCopySuccess">Błąd skopiowany do schowka</string>
+    <string name="bottombar_start">Start</string>
+    <string name="bottombar_settings">Ustawienia</string>
+    <string name="settings_theme">Motyw</string>
+    <string name="settings_language">Język</string>
+    <string name="settings_moreInfo">Dodatkowe informacje</string>
+    <string name="instaling_version">Wersja Instaling.pl:</string>
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
 
 </resources>

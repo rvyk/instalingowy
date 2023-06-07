@@ -81,7 +81,8 @@
                         android:ems="10"
                         android:inputType="textPersonName"
                         android:textCursorDrawable="@null"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +101,8 @@
                         android:ems="10"
                         android:inputType="textPassword"
                         android:textCursorDrawable="@null"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

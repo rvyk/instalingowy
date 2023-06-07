@@ -1,16 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragmentSettings"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".fragments.Settings">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ustawienia"
-        android:layout_centerInParent="true"
-        android:textSize="40dp"/>
+        android:layout_margin="30dp"
+        app:strokeWidth="0dp"
+        app:cardCornerRadius="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:padding="24dp">
 
-</RelativeLayout>
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/TextAppearance.Material3.HeadlineLarge"
+                android:id="@+id/loginTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/bottombar_settings"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="137dp"
+                tools:layout_editor_absoluteY="206dp" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:id="@+id/chooseTheme"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/settings_theme"
+                app:iconGravity="start"
+                app:icon="@drawable/ic_outline_palette_24"
+                android:textSize="18sp" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:id="@+id/chooseLang"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/settings_language"
+                app:iconGravity="start"
+                app:icon="@drawable/ic_baseline_language_24"
+                android:textSize="18sp" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:id="@+id/moreinfo"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/settings_moreInfo"
+                app:iconGravity="start"
+                app:icon="@drawable/ic_baseline_info_24"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
