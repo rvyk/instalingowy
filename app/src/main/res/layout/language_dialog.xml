@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/language_dialog"
     android:orientation="vertical"
     android:paddingTop="16dp">
@@ -49,5 +50,25 @@
             android:textSize="16sp"
             android:text="@string/settings_language_english"/>
     </RadioGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_marginHorizontal="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/change_lang_help_us"
+        android:textAlignment="center" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:id="@+id/langDialCrowBut"
+        app:icon="@drawable/ic_baseline_language_24"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="30dp"
+        android:layout_height="50dp"
+        app:iconSize="20sp"
+        android:layout_marginTop="15dp"
+        android:text="@string/extra_info_crowdin"
+        android:textSize="16sp" />
 
 </LinearLayout>

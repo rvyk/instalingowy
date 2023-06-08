@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,8 +44,22 @@ public class LoginActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        SharedPreferences preferences = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        int selectedTheme = preferences.getInt("SelectedTheme", R.id.system_theme);
 
+        Log.d("selectedTheme", String.valueOf(selectedTheme));
+        switch (selectedTheme) {
+            case R.id.light_theme:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case R.id.dark_theme:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            default:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
 
         instaLogin = findViewById(R.id.instaLogin);

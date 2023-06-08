@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Instapp</string>
-    <string name="login_title">Logging</string>
+    <string name="login_title">Sign in</string>
     <string name="login_input">Username</string>
     <string name="password_input">Password</string>
     <string name="login_button">Login</string>
@@ -62,4 +62,10 @@
     <string name="grades_synonym">Synonym</string>
     <string name="grades_typo">Typo</string>
     <string name="grades_letter_case">Wrong letter case</string>
+    <string name="extra_info_crowdin">Crowdin translations</string>
+    <string name="change_lang_help_us">If you would like to help us translate the app into more languages, visit Crowdin translations</string>
+    <string name="settings_theme_restart_required">To apply the new theme, it is required to restart the application</string>
+    <string name="settings_theme_restart_required_title">Application restart</string>
+    <string name="settings_theme_restart_now">Restart now</string>
+    <string name="settings_theme_restart_later">Later</string>
 </resources>
