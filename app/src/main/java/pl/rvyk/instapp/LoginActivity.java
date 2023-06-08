@@ -10,10 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -46,8 +46,10 @@ public class LoginActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         int selectedTheme = preferences.getInt("SelectedTheme", R.id.system_theme);
+        SharedPreferences langPreferences = getSharedPreferences("LanguagePrefs", MODE_PRIVATE);
+        int selectedLanguage = langPreferences.getInt("SelectedLanguage", R.id.system_language);
+        LocaleListCompat appLocale;
 
-        Log.d("selectedTheme", String.valueOf(selectedTheme));
         switch (selectedTheme) {
             case R.id.light_theme:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -57,6 +59,21 @@ public class LoginActivity extends AppCompatActivity{
                 break;
             default:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+        }
+
+        switch (selectedLanguage) {
+            case R.id.polish_language:
+                appLocale = LocaleListCompat.forLanguageTags("pl-PL");
+                AppCompatDelegate.setApplicationLocales(appLocale);
+                break;
+            case R.id.english_language:
+                appLocale = LocaleListCompat.forLanguageTags("en-EN");
+                AppCompatDelegate.setApplicationLocales(appLocale);
+                break;
+            default:
+                appLocale = LocaleListCompat.forLanguageTags("system");
+                AppCompatDelegate.setApplicationLocales(appLocale);
                 break;
         }
         super.onCreate(savedInstanceState);
