@@ -4,12 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -26,12 +25,14 @@ import org.json.JSONObject;
 
 import pl.rvyk.instapp.utils.SnackbarController;
 
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText instaLogin, instaPass;
-    Button loginBtn;
-    ProgressBar progressBar;
-    LinearLayout linearLayout, mainLinearContent;
+    private EditText instaLogin;
+    private EditText instaPass;
+    private Button loginBtn;
+    private LinearLayout linearLayout;
+    private LinearLayout mainLinearContent;
+    private LinearLayout progressBar;
     private static final String SHARED_PREF_NAME = "Account1";
     private static final String KEY_LOGIN = "login";
     private static final String KEY_PASSWORD = "password";
@@ -44,6 +45,11 @@ public class LoginActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_page);
+
+        initializeViews();
+
         SharedPreferences preferences = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         int selectedTheme = preferences.getInt("SelectedTheme", R.id.system_theme);
         SharedPreferences langPreferences = getSharedPreferences("LanguagePrefs", MODE_PRIVATE);
@@ -76,15 +82,6 @@ public class LoginActivity extends AppCompatActivity{
                 AppCompatDelegate.setApplicationLocales(appLocale);
                 break;
         }
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_page);
-
-        instaLogin = findViewById(R.id.instaLogin);
-        instaPass = findViewById(R.id.instaPass);
-        loginBtn = findViewById(R.id.loginButton);
-        progressBar = findViewById(R.id.progressBar);
-        linearLayout = findViewById(R.id.loginForm);
-        mainLinearContent = findViewById(R.id.mainLinearContent);
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
@@ -94,24 +91,22 @@ public class LoginActivity extends AppCompatActivity{
             login(savedLogin, savedPassword);
         } else {
             progressBar.setVisibility(View.GONE);
-            linearLayout.setVisibility(View.VISIBLE);
         }
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String login = instaLogin.getText().toString();
-                String password = instaPass.getText().toString();
-
-                login(login, password);
-
-            }
-        });
+        loginBtn.setOnClickListener(this);
     }
 
-    private void login(final String login, final String password) {
+    private void initializeViews() {
+        instaLogin = findViewById(R.id.instaLogin);
+        instaPass = findViewById(R.id.instaPass);
+        loginBtn = findViewById(R.id.loginButton);
+        progressBar = findViewById(R.id.progressBar);
+        linearLayout = findViewById(R.id.loginForm);
+        mainLinearContent = findViewById(R.id.mainLinearContent);
+    }
+
+    private void login(String login, String password) {
         progressBar.setVisibility(View.VISIBLE);
-        linearLayout.setVisibility(View.GONE);
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -120,58 +115,64 @@ public class LoginActivity extends AppCompatActivity{
         } catch (JSONException error) {
             SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
             progressBar.setVisibility(View.GONE);
-            linearLayout.setVisibility(View.VISIBLE);
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 "https://api.ezinstaling.lol/api/v1/instaling/checkaccount",
                 jsonBody,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            boolean success = response.getBoolean("success");
-                            if (success) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString(KEY_LOGIN, login);
-                                editor.putString(KEY_PASSWORD, password);
-                                editor.putString(KEY_PHPSESSID, response.getString("phpsessid"));
-                                editor.putString(KEY_APPID, response.getString("appid"));
-                                editor.putString(KEY_STUDENTID, response.getString("studentid"));
-                                editor.putBoolean(KEY_SESSIONCOMPLETED, response.getBoolean("todaySessionCompleted"));
-                                editor.putString(KEY_INSTALING_VERSION, response.getString("instalingVersion"));
-                                editor.apply();
+                response -> {
+                    try {
+                        boolean success = response.getBoolean("success");
+                        if (success) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString(KEY_LOGIN, login);
+                            editor.putString(KEY_PASSWORD, password);
+                            editor.putString(KEY_PHPSESSID, response.getString("phpsessid"));
+                            editor.putString(KEY_APPID, response.getString("appid"));
+                            editor.putString(KEY_STUDENTID, response.getString("studentid"));
+                            editor.putBoolean(KEY_SESSIONCOMPLETED, response.getBoolean("todaySessionCompleted"));
+                            editor.putString(KEY_INSTALING_VERSION, response.getString("instalingVersion"));
+                            editor.apply();
 
-                                Intent intent = new Intent(LoginActivity.this, UserInterface.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
-                                progressBar.setVisibility(View.GONE);
-                                linearLayout.setVisibility(View.VISIBLE);
-                            }
-                        } catch (JSONException error) {
-                            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
+                            Intent intent = new Intent(LoginActivity.this, UserInterface.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
                             progressBar.setVisibility(View.GONE);
-                            linearLayout.setVisibility(View.VISIBLE);
                         }
+                    } catch (JSONException error) {
+                        SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
+                        progressBar.setVisibility(View.GONE);
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse != null && error.networkResponse.statusCode == 403) {
-                            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
-                        } else {
-                            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.api_host_error), true);
-                        }
-                        progressBar.setVisibility(View.GONE);
-                        linearLayout.setVisibility(View.VISIBLE);
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.statusCode == 403) {
+                        SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
+                    } else {
+                        SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.api_host_error), true);
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
         );
         Volley.newRequestQueue(LoginActivity.this).add(request);
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.loginButton) {
+            String login = instaLogin.getText().toString();
+            String password = instaPass.getText().toString();
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            View keyboard = LoginActivity.this.getCurrentFocus();
+            if (keyboard != null) {
+                imm.hideSoftInputFromWindow(keyboard.getWindowToken(), 0);
+            }
+
+            login(login, password);
+        }
+    }
 }

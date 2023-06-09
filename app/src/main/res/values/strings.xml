@@ -70,4 +70,6 @@
     <string name="settings_restart_required_title">Application restart</string>
     <string name="settings_restart_now">Restart now</string>
     <string name="settings_restart_later">Later</string>
+    <string name="bottombar_homeworks">Homework</string>
+    <string name="homeworks_notfound">No homework assignments</string>
 </resources>

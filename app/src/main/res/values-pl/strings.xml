@@ -67,4 +67,6 @@
     <string name="settings_restart_required_title">Restart aplikacji</string>
     <string name="settings_restart_now">Restartuj teraz</string>
     <string name="settings_restart_later">Poźniej</string>
+    <string name="bottombar_homeworks">Zadania domowe</string>
+    <string name="homeworks_notfound">Brak zadań domowych</string>
 </resources>

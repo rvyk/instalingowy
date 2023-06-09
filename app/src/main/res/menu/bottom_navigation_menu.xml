@@ -4,6 +4,10 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/bottombar_start"/>
     <item
+        android:id="@+id/fragmentHomeworks"
+        android:icon="@drawable/ic_baseline_edit_note_24"
+        android:title="@string/bottombar_homeworks"/>
+    <item
         android:id="@+id/fragmentSettings"
         android:icon="@drawable/ic_baseline_settings_24"
         android:title="@string/bottombar_settings"/>

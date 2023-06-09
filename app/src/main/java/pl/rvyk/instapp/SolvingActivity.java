@@ -6,14 +6,11 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,13 +20,10 @@ import pl.rvyk.instapp.utils.SnackbarController;
 
 public class SolvingActivity extends AppCompatActivity {
 
-    private TextView questionTextView;
-
     TextView translations, translateText;
     EditText answer;
     Button sendAnswerButton, refreshButton;
-    LinearLayout sendAnswer, summary, mainLinearContent, progressBar, noConnection;
-    private Button viewById;
+    LinearLayout sendAnswer, mainLinearContent, noConnection, progressBar;
     private String questionIdentificator;
 
     private SharedPreferences sharedPreferences;
@@ -53,7 +47,6 @@ public class SolvingActivity extends AppCompatActivity {
         translateText = findViewById(R.id.translateText);
         progressBar = findViewById(R.id.progressBar);
         sendAnswer = findViewById(R.id.sendAnswer);
-        summary = findViewById(R.id.summary);
         sendAnswerButton = findViewById(R.id.sendAnswerButton);
         answer = findViewById(R.id.answer);
         mainLinearContent = findViewById(R.id.solving_page);
@@ -113,7 +106,6 @@ public class SolvingActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             progressBar.setVisibility(View.GONE);
-                            sendAnswer.setVisibility(View.VISIBLE);
                             questionIdentificator = questionId;
                             translations.setText(question);
                             translateText.setText(usageExample);

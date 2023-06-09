@@ -8,21 +8,13 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:elevation="20dp"
-        android:scaleX="-0.3"
-        android:scaleY="-0.3"
-        android:visibility="gone" />
+    <include layout="@layout/loader" />
 
     <LinearLayout
         android:id="@+id/loginForm"
         android:layout_width="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="visible"
         android:layout_height="wrap_content">
 
         <LinearLayout

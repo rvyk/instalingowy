@@ -18,6 +18,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import pl.rvyk.instapp.databinding.ActivityUserinterfaceBinding;
+import pl.rvyk.instapp.fragments.Homeworks;
 import pl.rvyk.instapp.fragments.Settings;
 import pl.rvyk.instapp.fragments.Start;
 import pl.rvyk.instapp.utils.SnackbarController;
@@ -25,7 +26,6 @@ import pl.rvyk.instapp.utils.SnackbarController;
 public class UserInterface extends AppCompatActivity {
 
     ActivityUserinterfaceBinding binding;
-
 
     ConstraintLayout content;
 
@@ -49,6 +49,9 @@ public class UserInterface extends AppCompatActivity {
                     break;
                 case R.id.fragmentSettings:
                     replaceFragment(new Settings());
+                    break;
+                case R.id.fragmentHomeworks:
+                    replaceFragment(new Homeworks());
                     break;
             }
 
@@ -96,8 +99,6 @@ public class UserInterface extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
-
     }
-
 }
 
