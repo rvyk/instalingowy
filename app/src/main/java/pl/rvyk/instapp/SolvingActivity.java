@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,6 +95,7 @@ public class SolvingActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable error) {
+                            Log.d("err", error.toString());
                             SnackbarController.showSnackbar(SolvingActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
                         }
                     });

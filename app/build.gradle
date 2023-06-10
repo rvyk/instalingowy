@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "pl.rvyk.instapp"
         minSdk 26
-        targetSdk 32
+        targetSdk 33
         versionCode 4
         versionName "0.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -48,8 +48,8 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'com.google.firebase:firebase-firestore:24.0.2'
     implementation 'com.google.firebase:firebase-config:21.4.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

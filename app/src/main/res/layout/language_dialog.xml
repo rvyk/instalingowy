@@ -49,6 +49,14 @@
             android:paddingLeft="8dp"
             android:textSize="16sp"
             android:text="@string/settings_language_english"/>
+        <RadioButton
+            android:id="@+id/turkish_language"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:paddingLeft="8dp"
+            android:textSize="16sp"
+            android:text="@string/settings_language_turkish"/>
     </RadioGroup>
 
     <com.google.android.material.textview.MaterialTextView

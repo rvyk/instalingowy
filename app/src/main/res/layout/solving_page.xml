@@ -8,30 +8,30 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <include layout="@layout/loader"/>
+    <include layout="@layout/loader" />
 
     <LinearLayout
+        android:id="@+id/noConnection"
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:id="@+id/progressBar"
         android:orientation="vertical"
+        android:visibility="gone"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/noConnection"
             android:layout_width="match_parent"
             android:orientation="vertical"
-            android:visibility="gone"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content">
             <com.google.android.material.textview.MaterialTextView
                 style="@style/TextAppearance.Material3.HeadlineLarge"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:text="Brak połączenia"
                 android:textAlignment="center"
                 android:textStyle="bold"
+                android:layout_marginHorizontal="30dp"
                 tools:layout_editor_absoluteX="137dp"
                 tools:layout_editor_absoluteY="206dp" />
             <com.google.android.material.button.MaterialButton
@@ -54,7 +54,6 @@
         android:layout_width="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView

@@ -49,7 +49,7 @@
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_language_english" translatable="false">English</string>
-    <string name="settings_language_polish" translatable="false">Polish</string>
+    <string name="settings_language_polish" translatable="false">Polski</string>
     <string name="summary_dialog_title">Session summary</string>
     <string name="summary_dialog_for">for</string>
     <string name="summary_dialog_working_days">Working days:</string>
@@ -72,4 +72,8 @@
     <string name="settings_restart_later">Later</string>
     <string name="bottombar_homeworks">Homework</string>
     <string name="homeworks_notfound">No homework assignments</string>
+    <string name="settings_language_turkish" translatable="false">Türkçe</string>
+    <string name="homework_exercise">Exercise:</string>
+    <string name="homework_term">Term:</string>
+    <string name="homework_grade">Grade:</string>
 </resources>

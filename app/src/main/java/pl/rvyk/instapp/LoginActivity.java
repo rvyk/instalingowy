@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.color.DynamicColors;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +76,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.english_language:
                 appLocale = LocaleListCompat.forLanguageTags("en-EN");
+                AppCompatDelegate.setApplicationLocales(appLocale);
+                break;
+            case R.id.turkish_language:
+                appLocale = LocaleListCompat.forLanguageTags("tr-TR");
                 AppCompatDelegate.setApplicationLocales(appLocale);
                 break;
             default:

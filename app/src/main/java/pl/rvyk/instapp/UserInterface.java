@@ -94,11 +94,20 @@ public class UserInterface extends AppCompatActivity {
         }
     }
 
+    private Fragment currentFragment = null;
+
     private void replaceFragment(Fragment fragment) {
+        if (currentFragment != null && fragment.getClass().equals(currentFragment.getClass())) {
+            return;
+        }
+
+        currentFragment = fragment;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.commit();
     }
+
 }
 

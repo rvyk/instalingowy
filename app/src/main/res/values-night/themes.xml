@@ -1,8 +1,8 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Instapp" parent="Theme.Material3.DynamicColors.Dark">
         <item name="android:autofilledHighlight">@android:color/transparent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">#121212</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSurface</item>
     </style>
 </resources>
