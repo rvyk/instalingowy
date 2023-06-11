@@ -11,14 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import pl.rvyk.instapp.LoginActivity;
 import pl.rvyk.instapp.R;
 import pl.rvyk.instapp.SolvingActivity;
 
-public class Start extends Fragment {
+public class StartFragment extends Fragment {
 
     private TextView loginTextView, sessionStatusView;
     private Button logoutButton, startButton;

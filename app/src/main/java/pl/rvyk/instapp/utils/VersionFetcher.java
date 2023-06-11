@@ -1,4 +1,4 @@
-package pl.rvyk.instapp.fragments;
+package pl.rvyk.instapp.utils;
 
 import android.content.Context;
 

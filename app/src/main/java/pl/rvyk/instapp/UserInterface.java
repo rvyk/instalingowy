@@ -18,9 +18,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import pl.rvyk.instapp.databinding.ActivityUserinterfaceBinding;
-import pl.rvyk.instapp.fragments.Homeworks;
-import pl.rvyk.instapp.fragments.Settings;
-import pl.rvyk.instapp.fragments.Start;
+import pl.rvyk.instapp.fragments.HomeworkFragment;
+import pl.rvyk.instapp.fragments.SettingsFragment;
+import pl.rvyk.instapp.fragments.StartFragment;
 import pl.rvyk.instapp.utils.SnackbarController;
 
 public class UserInterface extends AppCompatActivity {
@@ -40,18 +40,19 @@ public class UserInterface extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         content = findViewById(R.id.userinterface);
-        replaceFragment(new Start());
+        replaceFragment(new StartFragment());
+
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.fragmentHome:
-                    replaceFragment(new Start());
+                    replaceFragment(new StartFragment());
                     break;
                 case R.id.fragmentSettings:
-                    replaceFragment(new Settings());
+                    replaceFragment(new SettingsFragment());
                     break;
                 case R.id.fragmentHomeworks:
-                    replaceFragment(new Homeworks());
+                    replaceFragment(new HomeworkFragment());
                     break;
             }
 

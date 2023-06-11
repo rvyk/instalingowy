@@ -23,8 +23,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import pl.rvyk.instapp.LoginActivity;
 import pl.rvyk.instapp.R;
 import pl.rvyk.instapp.utils.SnackbarController;
+import pl.rvyk.instapp.utils.VersionFetcher;
 
-public class Settings extends Fragment {
+public class SettingsFragment extends Fragment {
 
     private Button changeLang;
     private Button changeTheme;

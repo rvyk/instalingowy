@@ -8,12 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.ActionMenuItemView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +39,7 @@ import java.util.Map;
 import pl.rvyk.instapp.R;
 import pl.rvyk.instapp.utils.SnackbarController;
 
-public class Homeworks extends Fragment {
+public class HomeworkFragment extends Fragment {
 
     private static final String TAG = "HomeworkFragment";
     private static final String API_URL = "https://api.ezinstaling.lol/api/v1/instaling/gethomeworks";
@@ -53,6 +54,7 @@ public class Homeworks extends Fragment {
     private boolean isButtonClickable = true;
 
     private Handler handler = new Handler();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,6 +101,10 @@ public class Homeworks extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        if (!isAdded()) {
+                            return;
+                        }
+
                         Log.d(TAG, "Response: " + response);
 
                         try {
@@ -128,6 +134,10 @@ public class Homeworks extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if (!isAdded()) {
+                            return;
+                        }
+
                         SnackbarController.showSnackbar(getActivity(), content, error, getResources().getString(R.string.unkown_error), true);
                         showNotFoundLayout();
                         hideLoader();
@@ -148,21 +158,37 @@ public class Homeworks extends Fragment {
     }
 
     private void showLoader() {
+        if (!isAdded()) {
+            return;
+        }
+
         loaderLayout.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         notFoundLayout.setVisibility(View.GONE);
     }
 
     private void hideLoader() {
+        if (!isAdded()) {
+            return;
+        }
+
         loaderLayout.setVisibility(View.GONE);
     }
 
     private void showNotFoundLayout() {
+        if (!isAdded()) {
+            return;
+        }
+
         notFoundLayout.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
     }
 
-    private void showHomeworks(JSONArray homeworksTodo, JSONArray homeworksDone) throws JSONException {
+    private void showHomeworks(JSONArray homeworksTodo, JSONArray homeworksDone) {
+        if (!isAdded()) {
+            return;
+        }
+
         recyclerView.setVisibility(View.VISIBLE);
         notFoundLayout.setVisibility(View.GONE);
 
@@ -195,21 +221,24 @@ public class Homeworks extends Fragment {
 
                 if (position < homeworksTodo.length()) {
                     homework = homeworksTodo.getJSONObject(position);
-                    holder.statusBar.setBackgroundColor(getResources().getColor(R.color.colorNotDone));
+                    holder.statusBar.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorNotDone));
                 } else {
                     int donePosition = position - homeworksTodo.length();
                     homework = homeworksDone.getJSONObject(donePosition);
-                    holder.statusBar.setBackgroundColor(getResources().getColor(R.color.colorDone));
+                    holder.statusBar.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorDone));
                 }
+
+                final String link = homework.getString("homeworkLink"); // Pobierz link do zadania
 
                 String title = homework.getString("title");
                 String deadline = homework.getString("deadline");
                 String extraInfo = "";
+
                 if (homework.has("grade")) {
                     String grade = homework.getString("grade");
 
                     if (grade.equals("0")) {
-                        extraInfo = getString(R.string.homework_no_grade);
+                        extraInfo = holder.itemView.getContext().getString(R.string.homework_no_grade);
                     } else {
                         extraInfo = grade;
                     }
@@ -217,10 +246,21 @@ public class Homeworks extends Fragment {
                     holder.extraInfoTextView.setVisibility(View.GONE);
                 }
 
-                holder.titleTextView.setText(getString(R.string.homework_exercise) + " " + title);
-                holder.deadlineTextView.setText(getString(R.string.homework_term) + " " + deadline);
-                holder.extraInfoTextView.setText(getString(R.string.homework_grade) + " " + extraInfo);
+                holder.titleTextView.setText(holder.itemView.getContext().getString(R.string.homework_exercise) + " " + title);
+                holder.deadlineTextView.setText(holder.itemView.getContext().getString(R.string.homework_term) + " " + deadline);
+                holder.extraInfoTextView.setText(holder.itemView.getContext().getString(R.string.homework_grade) + " " + extraInfo);
+
+                holder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(view.getContext(), link, Toast.LENGTH_LONG).show();
+                    }
+                });
             } catch (JSONException e) {
+                if (!isAdded()) {
+                    return;
+                }
+
                 SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
             }
         }

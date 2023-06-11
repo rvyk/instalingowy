@@ -5,4 +5,5 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSurface</item>
     </style>
+
 </resources>
