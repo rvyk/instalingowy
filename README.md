@@ -8,6 +8,7 @@ Nieoficjalna mobilna wersja [Instaling.pl](https://instaling.pl) do ćwiczenia s
 ## Funkcje
 * ze strony Instaling:
     * rozpocznij sesję
+    * zadania domowe
 
 ## Zbudowana przy pomocy
 
