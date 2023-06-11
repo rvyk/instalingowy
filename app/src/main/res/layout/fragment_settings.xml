@@ -40,6 +40,7 @@
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/appBarLayout"
+        app:strokeColor="@android:color/transparent"
         android:layout_margin="30dp"
         app:strokeWidth="0dp"
         app:cardCornerRadius="16dp">

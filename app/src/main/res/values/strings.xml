@@ -76,4 +76,5 @@
     <string name="homework_exercise">Exercise:</string>
     <string name="homework_term">Term:</string>
     <string name="homework_grade">Grade:</string>
+    <string name="homework_no_grade">No grade</string>
 </resources>

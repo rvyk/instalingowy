@@ -73,4 +73,5 @@
     <string name="homework_grade">Değerlendirme:</string>
     <string name="homework_term">Son tarih:</string>
     <string name="homework_exercise">Görev:</string>
+    <string name="homework_no_grade">Derecelendirme yok</string>
 </resources>
