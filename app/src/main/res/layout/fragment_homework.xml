@@ -13,7 +13,8 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.Material3.Toolbar.OnSurface"
+            android:elevation="20dp"
+            style="@style/Widget.Material3.Toolbar.Surface"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/top_app_bar_refresh"

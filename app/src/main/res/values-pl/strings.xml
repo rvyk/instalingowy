@@ -73,4 +73,15 @@
     <string name="homework_term">Termin:</string>
     <string name="homework_grade">Ocena:</string>
     <string name="homework_no_grade">Brak oceny</string>
+    <string name="bottombar_homeworks_summary">Podsumowanie zadania</string>
+    <string name="homework_completed">Zadanie ukończone!</string>
+    <string name="homework_saved">Odpowiedź zapisana!</string>
+    <string name="homework_dialog_message">Czy na pewno chcesz przesłać ukończoną pracę? Nie będzie już można jej edytować</string>
+    <string name="homework_dialog_title">Potwierdź przesłanie</string>
+    <string name="homework_information">Możesz edytować swoją pracę do ostatecznego terminu wyznaczonego przez nauczyciela (zostanie ona wysłany automatycznie po jego upływie) lub wysłać swoją pracę, jeśli jest już ukończona.</string>
+    <string name="homework_received_grade">Otrzymana ocena:</string>
+    <string name="homework_note">Notatka od nauczyciela:</string>
+    <string name="homework_send">Wyślij</string>
+    <string name="homework_save">Zapisz</string>
+    <string name="homework_your_answer">Twoja odpowiedź:</string>
 </resources>

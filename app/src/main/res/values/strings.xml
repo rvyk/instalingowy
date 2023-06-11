@@ -77,4 +77,15 @@
     <string name="homework_term">Term:</string>
     <string name="homework_grade">Grade:</string>
     <string name="homework_no_grade">No grade</string>
+    <string name="bottombar_homeworks_summary">Homework summary</string>
+    <string name="homework_completed">Task completed!</string>
+    <string name="homework_saved">Answer saved!</string>
+    <string name="homework_dialog_message">Are you sure you want to submit your finished work? You will no longer be able to edit it</string>
+    <string name="homework_dialog_title">Confirm task</string>
+    <string name="homework_information">You can edit your work up to the final term set by your teacher (it will be sent automatically when it has passed) or send your work if it is already finished.</string>
+    <string name="homework_received_grade">Grade received:</string>
+    <string name="homework_note">Note from teacher:</string>
+    <string name="homework_send">Send</string>
+    <string name="homework_save">Save</string>
+    <string name="homework_your_answer">Your answer:</string>
 </resources>

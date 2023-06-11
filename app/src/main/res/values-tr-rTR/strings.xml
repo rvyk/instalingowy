@@ -74,4 +74,15 @@
     <string name="homework_term">Son tarih:</string>
     <string name="homework_exercise">Görev:</string>
     <string name="homework_no_grade">Derecelendirme yok</string>
+    <string name="bottombar_homeworks_summary">Ev ödevi özeti</string>
+    <string name="homework_completed">Görev tamamlandı!</string>
+    <string name="homework_saved">Cevap kaydedildi!</string>
+    <string name="homework_dialog_message">Bitmiş çalışmanızı yüklemek istediğinizden emin misiniz? Artık düzenleyemeyeceksiniz</string>
+    <string name="homework_dialog_title">İletimi onaylayın</string>
+    <string name="homework_information">Çalışmanızı öğretmenin son tarihine kadar düzenleyebilir (son tarih geçtikten sonra otomatik olarak gönderilecektir) veya zaten tamamlanmışsa çalışmanızı gönderebilirsiniz.</string>
+    <string name="homework_received_grade">Değerlendirme alındı:</string>
+    <string name="homework_note">Öğretmenin notu:</string>
+    <string name="homework_send">Gönder</string>
+    <string name="homework_save">Kaydet</string>
+    <string name="homework_your_answer">Senin cevabın:</string>
 </resources>

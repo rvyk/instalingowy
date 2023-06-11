@@ -95,9 +95,9 @@ public class UserInterface extends AppCompatActivity {
         }
     }
 
-    private Fragment currentFragment = null;
+    public Fragment currentFragment = null;
 
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         if (currentFragment != null && fragment.getClass().equals(currentFragment.getClass())) {
             return;
         }

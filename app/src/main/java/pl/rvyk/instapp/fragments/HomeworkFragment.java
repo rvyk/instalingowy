@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -228,7 +230,7 @@ public class HomeworkFragment extends Fragment {
                     holder.statusBar.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorDone));
                 }
 
-                final String link = homework.getString("homeworkLink"); // Pobierz link do zadania
+                final String link = homework.getString("homeworkLink");
 
                 String title = homework.getString("title");
                 String deadline = homework.getString("deadline");
@@ -253,7 +255,24 @@ public class HomeworkFragment extends Fragment {
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(view.getContext(), link, Toast.LENGTH_LONG).show();
+                        try {
+
+                            HomeworkSummaryFragment homeworkSummaryFragment = new HomeworkSummaryFragment();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString("homeworkLink", link);
+                            bundle.putString("homeworkExercise", homework.getString("title"));
+                            homeworkSummaryFragment.setArguments(bundle);
+
+                            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.frameLayout, homeworkSummaryFragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        } catch (Exception e) {
+                            SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
+
+                        }
                     }
                 });
             } catch (JSONException e) {
