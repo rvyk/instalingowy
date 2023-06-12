@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Instapp</string>
     <string name="login_title">Giriş yap</string>
     <string name="login_input">Kullanıcı Adı</string>
     <string name="password_input">Şifre</string>
@@ -87,4 +86,7 @@
     <string name="homework_your_answer">Senin cevabın:</string>
     <string name="topbar_account_manager">Hesap yönetimi</string>
     <string name="topbar_refresh">Görevleri yenileyin</string>
+    <string name="homework_dialog_confirm">Onaylıyorum</string>
+    <string name="additional_learning_material_view">Ek malzemeye git</string>
+    <string name="additional_learning_materials">Ek öğrenme materyalleri</string>
 </resources>

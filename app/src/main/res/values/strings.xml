@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Instapp</string>
+    <string name="app_name" translatable="false">Instapp</string>
     <string name="login_title">Sign in</string>
     <string name="login_input">Username</string>
     <string name="password_input">Password</string>
@@ -90,4 +90,7 @@
     <string name="homework_your_answer">Your answer:</string>
     <string name="topbar_account_manager">Account manager</string>
     <string name="topbar_refresh">Refresh homeworks</string>
+    <string name="additional_learning_materials">Additional learning material</string>
+    <string name="additional_learning_material_view">Go to additional material</string>
+    <string name="homework_dialog_confirm">Confirm</string>
 </resources>

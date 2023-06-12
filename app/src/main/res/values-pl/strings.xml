@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Instapp</string>
     <string name="login_title">Logowanie</string>
     <string name="login_input">Nazwa użytkownika</string>
     <string name="password_input">Hasło</string>
@@ -86,4 +85,7 @@
     <string name="homework_your_answer">Twoja odpowiedź:</string>
     <string name="topbar_account_manager">Zarządzanie kontami</string>
     <string name="topbar_refresh">Odśwież zadania</string>
+    <string name="homework_dialog_confirm">Potwierdzam</string>
+    <string name="additional_learning_materials">Dodatkowy materiał do nauki</string>
+    <string name="additional_learning_material_view">Przejdź do materiału</string>
 </resources>

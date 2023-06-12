@@ -1,7 +1,9 @@
 package pl.rvyk.instapp.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,10 +47,11 @@ public class HomeworkSummaryFragment extends Fragment {
     private TextInputEditText answer, teacherNote, grade;
     private SharedPreferences sharedPreferences;
     private RequestQueue requestQueue;
-    private MaterialButton saveButton, sendButton;
-    private MaterialCardView information, note, gradeView;
+    private MaterialButton saveButton, sendButton, additionalMaterialButton;
+    private MaterialCardView information, note, gradeView, additionalMaterials;
     private LinearLayout loaderLayout, content;
 
+    private String additionalMaterialLink;
     private String homeworkLink, homeworkExercise;
 
     @Nullable
@@ -79,6 +82,9 @@ public class HomeworkSummaryFragment extends Fragment {
         grade = gradeLayout.findViewById(R.id.homeworkGrade);
         loaderLayout = view.findViewById(R.id.progressBar);
         content = view.findViewById(R.id.fragmentHomeworkSummary);
+
+        additionalMaterials = view.findViewById(R.id.externalLinkCard);
+        additionalMaterialButton = view.findViewById(R.id.externalLink);
 
         requestQueue = Volley.newRequestQueue(requireContext());
 
@@ -112,7 +118,7 @@ public class HomeworkSummaryFragment extends Fragment {
                 builder.setTitle(getString(R.string.homework_dialog_title));
                 builder.setMessage(getString(R.string.homework_dialog_message));
                 builder.setNegativeButton(getActivity().getResources().getString(R.string.reportDialogCancel), null);
-                builder.setPositiveButton("Potwierdzam", (dialog, which) -> {
+                builder.setPositiveButton(getActivity().getResources().getString(R.string.homework_dialog_confirm), (dialog, which) -> {
                     String userResponse = answer.getText().toString();
                     sendHomeworkRequest(phpsessid, userResponse, "save_and_send");
                 });
@@ -120,6 +126,17 @@ public class HomeworkSummaryFragment extends Fragment {
             }
         });
 
+        additionalMaterialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(additionalMaterialLink));
+                    startActivity(intent);
+                } catch (Exception e ) {
+                    SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
+                }
+            }
+        });
         return view;
     }
 
@@ -222,6 +239,11 @@ public class HomeworkSummaryFragment extends Fragment {
                                 if (details.has("note")) {
                                     teacherNote.setText(details.getString("note"));
                                     note.setVisibility(View.VISIBLE);
+                                }
+
+                                if (details.has("ytLink")) {
+                                    additionalMaterialLink = details.getString("ytLink");
+                                    additionalMaterials.setVisibility(View.VISIBLE);
                                 }
 
                                 title.setText(response.getString("title"));
