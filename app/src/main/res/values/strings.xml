@@ -88,4 +88,6 @@
     <string name="homework_send">Send</string>
     <string name="homework_save">Save</string>
     <string name="homework_your_answer">Your answer:</string>
+    <string name="topbar_account_manager">Account manager</string>
+    <string name="topbar_refresh">Refresh homeworks</string>
 </resources>

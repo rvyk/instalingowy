@@ -2,11 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/edit"
-        android:title="Konta"
+        android:id="@+id/accountsManager"
+        android:title="@string/topbar_account_manager"
         android:icon="@drawable/ic_outline_people_24"
-        android:contentDescription="Konta"
-
+        android:contentDescription="@string/topbar_account_manager"
         app:showAsAction="ifRoom" />
 
 </menu>

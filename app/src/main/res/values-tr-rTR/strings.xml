@@ -85,4 +85,6 @@
     <string name="homework_send">Gönder</string>
     <string name="homework_save">Kaydet</string>
     <string name="homework_your_answer">Senin cevabın:</string>
+    <string name="topbar_account_manager">Hesap yönetimi</string>
+    <string name="topbar_refresh">Görevleri yenileyin</string>
 </resources>

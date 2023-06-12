@@ -84,4 +84,6 @@
     <string name="homework_send">Wyślij</string>
     <string name="homework_save">Zapisz</string>
     <string name="homework_your_answer">Twoja odpowiedź:</string>
+    <string name="topbar_account_manager">Zarządzanie kontami</string>
+    <string name="topbar_refresh">Odśwież zadania</string>
 </resources>

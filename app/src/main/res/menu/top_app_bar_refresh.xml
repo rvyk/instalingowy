@@ -2,16 +2,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/refreshButton"
-        android:title="Refresh"
+        android:title="@string/topbar_refresh"
         android:icon="@drawable/ic_baseline_refresh_24"
-        android:contentDescription="Refresh"
+        android:contentDescription="@string/topbar_refresh"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/accountsManager"
-        android:title="Accounts manager"
+        android:title="@string/topbar_account_manager"
         android:icon="@drawable/ic_outline_people_24"
-        android:contentDescription="Accounts manager"
+        android:contentDescription="@string/topbar_account_manager"
         app:showAsAction="ifRoom" />
 
 </menu>
