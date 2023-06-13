@@ -66,7 +66,7 @@
     <string name="grades_letter_case">Wrong letter case</string>
     <string name="extra_info_crowdin">Crowdin translations</string>
     <string name="change_lang_help_us">If you would like to help us translate the app into more languages, visit Crowdin translations</string>
-    <string name="settings_theme_restart_required">To apply the new setting, it is required to restart the application</string>
+    <string name="settings_theme_restart_required">To apply the new settings, it is required to restart the application</string>
     <string name="settings_restart_required_title">Application restart</string>
     <string name="settings_restart_now">Restart now</string>
     <string name="settings_restart_later">Later</string>
@@ -77,11 +77,11 @@
     <string name="homework_term">Term:</string>
     <string name="homework_grade">Grade:</string>
     <string name="homework_no_grade">No grade</string>
-    <string name="bottombar_homeworks_summary">Homework summary</string>
-    <string name="homework_completed">Task completed!</string>
+    <string name="bottombar_homeworks_summary">Homework details</string>
+    <string name="homework_completed">Homework completed!</string>
     <string name="homework_saved">Answer saved!</string>
     <string name="homework_dialog_message">Are you sure you want to submit your finished work? You will no longer be able to edit it</string>
-    <string name="homework_dialog_title">Confirm task</string>
+    <string name="homework_dialog_title">Confirm homework</string>
     <string name="homework_information">You can edit your work up to the final term set by your teacher (it will be sent automatically when it has passed) or send your work if it is already finished.</string>
     <string name="homework_received_grade">Grade received:</string>
     <string name="homework_note">Note from teacher:</string>
