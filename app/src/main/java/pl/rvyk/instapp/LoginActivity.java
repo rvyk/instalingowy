@@ -82,6 +82,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 appLocale = LocaleListCompat.forLanguageTags("tr-TR");
                 AppCompatDelegate.setApplicationLocales(appLocale);
                 break;
+            case R.id.ukrainian_language:
+                appLocale = LocaleListCompat.forLanguageTags("uk-UA");
+                AppCompatDelegate.setApplicationLocales(appLocale);
+                break;
             default:
                 appLocale = LocaleListCompat.forLanguageTags("system");
                 AppCompatDelegate.setApplicationLocales(appLocale);

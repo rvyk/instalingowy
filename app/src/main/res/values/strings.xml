@@ -93,4 +93,5 @@
     <string name="additional_learning_materials">Additional learning material</string>
     <string name="additional_learning_material_view">Go to additional material</string>
     <string name="homework_dialog_confirm">Confirm</string>
+    <string name="settings_language_ukrainian" translatable="false">Українська</string>
 </resources>
