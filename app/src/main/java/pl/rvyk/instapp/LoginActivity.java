@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -24,6 +25,9 @@ import com.google.android.material.color.DynamicColors;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pl.rvyk.instapp.api.InstalingLogin;
+import pl.rvyk.instapp.api.InstalingLoginResult;
+import pl.rvyk.instapp.utils.SettingsInitialize;
 import pl.rvyk.instapp.utils.SnackbarController;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -51,53 +55,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         initializeViews();
 
-        SharedPreferences preferences = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
-        int selectedTheme = preferences.getInt("SelectedTheme", R.id.system_theme);
-        SharedPreferences langPreferences = getSharedPreferences("LanguagePrefs", MODE_PRIVATE);
-        int selectedLanguage = langPreferences.getInt("SelectedLanguage", R.id.system_language);
-        LocaleListCompat appLocale;
-
-        switch (selectedTheme) {
-            case R.id.light_theme:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case R.id.dark_theme:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            default:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
-        }
-
-        switch (selectedLanguage) {
-            case R.id.polish_language:
-                appLocale = LocaleListCompat.forLanguageTags("pl-PL");
-                AppCompatDelegate.setApplicationLocales(appLocale);
-                break;
-            case R.id.english_language:
-                appLocale = LocaleListCompat.forLanguageTags("en-EN");
-                AppCompatDelegate.setApplicationLocales(appLocale);
-                break;
-            case R.id.turkish_language:
-                appLocale = LocaleListCompat.forLanguageTags("tr-TR");
-                AppCompatDelegate.setApplicationLocales(appLocale);
-                break;
-            case R.id.ukrainian_language:
-                appLocale = LocaleListCompat.forLanguageTags("uk-UA");
-                AppCompatDelegate.setApplicationLocales(appLocale);
-                break;
-            default:
-                appLocale = LocaleListCompat.forLanguageTags("system");
-                AppCompatDelegate.setApplicationLocales(appLocale);
-                break;
-        }
+        SettingsInitialize.Initialize(LoginActivity.this);
 
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         if (sharedPreferences.contains(KEY_LOGIN) && sharedPreferences.contains(KEY_PASSWORD)) {
             String savedLogin = sharedPreferences.getString(KEY_LOGIN, "");
             String savedPassword = sharedPreferences.getString(KEY_PASSWORD, "");
-            login(savedLogin, savedPassword);
+//            login(savedLogin, savedPassword);
         } else {
             progressBar.setVisibility(View.GONE);
         }
@@ -181,7 +146,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 imm.hideSoftInputFromWindow(keyboard.getWindowToken(), 0);
             }
 
-            login(login, password);
+//            login(login, password);
+
+            InstalingLogin.loginToInstaling(login, password);
+
         }
     }
 }
