@@ -3,6 +3,7 @@ package pl.rvyk.instapp.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -41,6 +42,7 @@ public class WebhookController {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                Log.e("WebhookController", "Error while sending bug report to webhook", error);
                                 Toast.makeText(context, context.getResources().getString(R.string.reportFailure), Toast.LENGTH_SHORT).show();
                             }
                         }) {
@@ -48,15 +50,14 @@ public class WebhookController {
                     public byte[] getBody() throws AuthFailureError {
                         JSONObject jsonBody = new JSONObject();
                         try {
-                            JSONObject deviceInfoEmbed = new JSONObject();
-                            deviceInfoEmbed.put("title", "Device Info");
-                            deviceInfoEmbed.put("fields", createDeviceInfoFields(context));
+                            JSONObject embed = new JSONObject();
+                            embed.put("title", "Raport błędu");
+                            embed.put("color", 15158332); // Czerwony kolor
+                            embed.put("fields", createDeviceInfoFields(context));
+                            embed.put("description", "```\n" + bugReport + "```");
 
-                            JSONArray embedsArray = new JSONArray().put(deviceInfoEmbed);
+                            JSONArray embedsArray = new JSONArray().put(embed);
                             jsonBody.put("embeds", embedsArray);
-
-                            jsonBody.put("content", "```prolog\n " + bugReport + "```");
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
