@@ -187,7 +187,6 @@ public class SettingsFragment extends Fragment {
             int versionCode = packageInfo.versionCode;
 
             TextView app_version = extraInfoDialog.findViewById(R.id.app_version);
-            TextView api_version = extraInfoDialog.findViewById(R.id.api_version);
             TextView instaling_version = extraInfoDialog.findViewById(R.id.instaling_version);
 
             app_version.setText("VN: " + versionName + ", VC: " + versionCode);

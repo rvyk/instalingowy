@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace 'pl.rvyk.instapp'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "pl.rvyk.instapp"
         minSdk 26
-        targetSdk 33
-        versionCode 6
-        versionName "0.0.6"
+        targetSdk 34
+        versionCode 10
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {

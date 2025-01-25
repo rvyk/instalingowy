@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Instapp</string>
+    <string name="app_name" translatable="false">Instalingowy</string>
     <string name="login_title">Sign in</string>
     <string name="login_input">Username</string>
     <string name="password_input">Password</string>

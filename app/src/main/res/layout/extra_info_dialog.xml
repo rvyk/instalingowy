@@ -85,38 +85,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginVertical="10dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_height="40dp">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:tint="?attr/colorSecondary"
-            android:layout_width="20dp"
-            android:src="@drawable/ic_baseline_api_24"
-            android:layout_marginHorizontal="10dp"
-            android:layout_height="20dp"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
-            <com.google.android.material.textview.MaterialTextView
-                style="@style/TextAppearance.Material3.LabelLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/extra_info_api_version"
-                android:textAlignment="center" />
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/api_version"
-                style="@style/TextAppearance.Material3.LabelMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1.4-nestjs"
-                android:textAlignment="center" />
-        </LinearLayout>
-    </LinearLayout>
     <com.google.android.material.divider.MaterialDivider
         style="@style/Widget.MaterialComponents.MaterialDivider"
         android:layout_width="match_parent"
