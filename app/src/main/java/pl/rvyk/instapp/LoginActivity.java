@@ -14,16 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.color.DynamicColors;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import pl.rvyk.instapp.scrapper.InstalingLogin.InstalingLogin;
+import pl.rvyk.instapp.scrapper.Scrapper;
 import pl.rvyk.instapp.utils.SnackbarController;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -117,55 +116,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void login(String login, String password) {
         progressBar.setVisibility(View.VISIBLE);
 
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("login", login);
-            jsonBody.put("password", password);
-        } catch (JSONException error) {
-            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
-            progressBar.setVisibility(View.GONE);
-        }
+        InstalingLogin instalingLogin = new InstalingLogin();
+        instalingLogin.login(Scrapper.Methods.LOGIN_PASSWORD, login, password, null, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                runOnUiThread(() -> {
+                    if (instalingLogin.isSuccess()) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(KEY_LOGIN, login);
+                        editor.putString(KEY_PASSWORD, password);
+                        editor.putString(KEY_PHPSESSID, instalingLogin.getPhpSessionID());
+                        editor.putString(KEY_APPID, instalingLogin.getAppID());
+                        editor.putString(KEY_STUDENTID, instalingLogin.getStudentID());
+                        editor.putBoolean(KEY_SESSIONCOMPLETED, instalingLogin.isTodaySessionCompleted());
+                        editor.putString(KEY_INSTALING_VERSION, instalingLogin.getInstalingVersion());
+                        editor.apply();
 
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                "https://api.ezinstaling.lol/api/v1/instaling/checkaccount",
-                jsonBody,
-                response -> {
-                    try {
-                        boolean success = response.getBoolean("success");
-                        if (success) {
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString(KEY_LOGIN, login);
-                            editor.putString(KEY_PASSWORD, password);
-                            editor.putString(KEY_PHPSESSID, response.getString("phpsessid"));
-                            editor.putString(KEY_APPID, response.getString("appid"));
-                            editor.putString(KEY_STUDENTID, response.getString("studentid"));
-                            editor.putBoolean(KEY_SESSIONCOMPLETED, response.getBoolean("todaySessionCompleted"));
-                            editor.putString(KEY_INSTALING_VERSION, response.getString("instalingVersion"));
-                            editor.apply();
-
-                            Intent intent = new Intent(LoginActivity.this, UserInterface.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    } catch (JSONException error) {
-                        SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.unkown_error), true);
+                        Intent intent = new Intent(LoginActivity.this, UserInterface.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
                         progressBar.setVisibility(View.GONE);
                     }
-                },
-                error -> {
-                    if (error.networkResponse != null && error.networkResponse.statusCode == 403) {
-                        SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, null, getResources().getString(R.string.invalid_credentials), false);
-                    } else {
-                        SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, error, getResources().getString(R.string.api_host_error), true);
-                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> {
+                    SnackbarController.showSnackbar(LoginActivity.this, mainLinearContent, e, getResources().getString(R.string.api_host_error), true);
                     progressBar.setVisibility(View.GONE);
-                }
-        );
-        Volley.newRequestQueue(LoginActivity.this).add(request);
+                });
+            }
+        });
     }
 
     @Override

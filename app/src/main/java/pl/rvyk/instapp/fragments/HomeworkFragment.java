@@ -1,5 +1,6 @@
 package pl.rvyk.instapp.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,25 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -35,26 +26,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import pl.rvyk.instapp.R;
+import pl.rvyk.instapp.scrapper.Homeworks.GetHomeworks;
+import pl.rvyk.instapp.scrapper.Homeworks.HomeworkItem;
 import pl.rvyk.instapp.utils.SnackbarController;
 
 public class HomeworkFragment extends Fragment {
 
     private static final String TAG = "HomeworkFragment";
-    private static final String API_URL = "https://api.ezinstaling.lol/api/v1/instaling/gethomeworks";
 
     private RecyclerView recyclerView;
     private LinearLayout notFoundLayout;
     private LinearLayout loaderLayout, content;
     private SharedPreferences sharedPreferences;
 
-    private RequestQueue requestQueue;
-
     private boolean isButtonClickable = true;
-
     private Handler handler = new Handler();
 
     @Nullable
@@ -67,9 +58,7 @@ public class HomeworkFragment extends Fragment {
         loaderLayout = view.findViewById(R.id.progressBar);
         content = view.findViewById(R.id.fragment_homework);
 
-        ActionMenuItemView refresh = view.findViewById(R.id.refreshButton);
-
-        requestQueue = Volley.newRequestQueue(requireContext());
+        @SuppressLint("RestrictedApi") ActionMenuItemView refresh = view.findViewById(R.id.refreshButton);
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,64 +88,47 @@ public class HomeworkFragment extends Fragment {
     private void getHomeworks() {
         showLoader();
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, API_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (!isAdded()) {
-                            return;
-                        }
+        sharedPreferences = requireActivity().getSharedPreferences("Account1", Context.MODE_PRIVATE);
+        String phpSessionId = sharedPreferences.getString("phpsessid", "");
+        String appId = sharedPreferences.getString("appid", "");
+        String studentId = sharedPreferences.getString("studentid", "");
 
-                        Log.d(TAG, "Response: " + response);
+        GetHomeworks getHomeworks = new GetHomeworks();
+        getHomeworks.getHomeworks(phpSessionId, appId, studentId, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!isAdded()) {
+                    return;
+                }
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-
-                            if (success) {
-                                JSONArray homeworksTodo = jsonObject.getJSONArray("homeworksTodo");
-                                JSONArray homeworksDone = jsonObject.getJSONArray("homeworksDone");
-
-                                if (homeworksTodo.length() > 0 || homeworksDone.length() > 0) {
-                                    showHomeworks(homeworksTodo, homeworksDone);
-                                } else {
-                                    showNotFoundLayout();
-                                }
-                            } else {
-                                showNotFoundLayout();
-                            }
-                        } catch (JSONException e) {
-                            SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
+                requireActivity().runOnUiThread(() -> {
+                    GetHomeworks.HomeworkResult result = getHomeworks.getResult();
+                    if (result != null && result.isSuccess()) {
+                        if (!result.getHomeworksTodo().isEmpty() || !result.getHomeworksDone().isEmpty()) {
+                            showHomeworks(result.getHomeworksTodo(), result.getHomeworksDone());
+                        } else {
                             showNotFoundLayout();
                         }
-
-                        hideLoader();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (!isAdded()) {
-                            return;
-                        }
-
-                        SnackbarController.showSnackbar(getActivity(), content, error, getResources().getString(R.string.unkown_error), true);
+                    } else {
                         showNotFoundLayout();
-                        hideLoader();
                     }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                sharedPreferences = requireActivity().getSharedPreferences("Account1", Context.MODE_PRIVATE);
-                String phpsessid = sharedPreferences.getString("phpsessid", "");
-
-                Map<String, String> params = new HashMap<>();
-                params.put("phpsessid", phpsessid);
-                return params;
+                    hideLoader();
+                });
             }
-        };
 
-        requestQueue.add(stringRequest);
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (!isAdded()) {
+                    return;
+                }
+
+                requireActivity().runOnUiThread(() -> {
+                    SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
+                    showNotFoundLayout();
+                    hideLoader();
+                });
+            }
+        });
     }
 
     private void showLoader() {
@@ -186,7 +158,7 @@ public class HomeworkFragment extends Fragment {
         recyclerView.setVisibility(View.GONE);
     }
 
-    private void showHomeworks(JSONArray homeworksTodo, JSONArray homeworksDone) {
+    private void showHomeworks(java.util.List<HomeworkItem> homeworksTodo, java.util.List<HomeworkItem> homeworksDone) {
         if (!isAdded()) {
             return;
         }
@@ -201,10 +173,10 @@ public class HomeworkFragment extends Fragment {
 
     private class HomeworkAdapter extends RecyclerView.Adapter<HomeworkAdapter.ViewHolder> {
 
-        private JSONArray homeworksTodo;
-        private JSONArray homeworksDone;
+        private final java.util.List<HomeworkItem> homeworksTodo;
+        private final java.util.List<HomeworkItem> homeworksDone;
 
-        HomeworkAdapter(JSONArray homeworksTodo, JSONArray homeworksDone) {
+        HomeworkAdapter(java.util.List<HomeworkItem> homeworksTodo, java.util.List<HomeworkItem> homeworksDone) {
             this.homeworksTodo = homeworksTodo;
             this.homeworksDone = homeworksDone;
         }
@@ -218,75 +190,54 @@ public class HomeworkFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            try {
-                JSONObject homework;
+            HomeworkItem homework;
 
-                if (position < homeworksTodo.length()) {
-                    homework = homeworksTodo.getJSONObject(position);
-                    holder.statusBar.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorNotDone));
+            if (position < homeworksTodo.size()) {
+                homework = homeworksTodo.get(position);
+                holder.statusBar.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorNotDone));
+            } else {
+                int donePosition = position - homeworksTodo.size();
+                homework = homeworksDone.get(donePosition);
+                holder.statusBar.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorDone));
+            }
+
+            holder.titleTextView.setText(homework.getTitle());
+            holder.deadlineTextView.setText(homework.getDeadline());
+
+            String grade = homework.getGrade();
+            if (grade != null && !grade.isEmpty()) {
+                if (grade.equals("0")) {
+                    holder.extraInfoTextView.setText(holder.itemView.getContext().getString(R.string.homework_no_grade));
                 } else {
-                    int donePosition = position - homeworksTodo.length();
-                    homework = homeworksDone.getJSONObject(donePosition);
-                    holder.statusBar.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.colorDone));
+                    holder.extraInfoTextView.setText(grade);
                 }
+                holder.extraInfoTextView.setVisibility(View.VISIBLE);
+            } else {
+                holder.extraInfoTextView.setVisibility(View.GONE);
+            }
 
-                final String link = homework.getString("homeworkLink");
-
-                String title = homework.getString("title");
-                String deadline = homework.getString("deadline");
-                String extraInfo = "";
-
-                if (homework.has("grade")) {
-                    String grade = homework.getString("grade");
-
-                    if (grade.equals("0")) {
-                        extraInfo = holder.itemView.getContext().getString(R.string.homework_no_grade);
-                    } else {
-                        extraInfo = grade;
-                    }
-                } else {
-                    holder.extraInfoTextView.setVisibility(View.GONE);
-                }
-
-                holder.titleTextView.setText(holder.itemView.getContext().getString(R.string.homework_exercise) + " " + title);
-                holder.deadlineTextView.setText(holder.itemView.getContext().getString(R.string.homework_term) + " " + deadline);
-                holder.extraInfoTextView.setText(holder.itemView.getContext().getString(R.string.homework_grade) + " " + extraInfo);
-
-                holder.cardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        try {
-
-                            HomeworkSummaryFragment homeworkSummaryFragment = new HomeworkSummaryFragment();
-
-                            Bundle bundle = new Bundle();
-                            bundle.putString("homeworkLink", link);
-                            bundle.putString("homeworkExercise", homework.getString("title"));
-                            homeworkSummaryFragment.setArguments(bundle);
-
-                            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.frameLayout, homeworkSummaryFragment);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        } catch (Exception e) {
-                            SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
-
-                        }
-                    }
-                });
-            } catch (JSONException e) {
+            holder.cardView.setOnClickListener(view -> {
                 if (!isAdded()) {
                     return;
                 }
 
-                SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
-            }
+                Bundle bundle = new Bundle();
+                bundle.putString("link", homework.getHomeworkLink());
+
+                HomeworkSummaryFragment homeworkSummaryFragment = new HomeworkSummaryFragment();
+                homeworkSummaryFragment.setArguments(bundle);
+
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frameLayout, homeworkSummaryFragment)
+                        .addToBackStack(null)
+                        .commit();
+            });
         }
 
         @Override
         public int getItemCount() {
-            return homeworksTodo.length() + homeworksDone.length();
+            return homeworksTodo.size() + homeworksDone.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {

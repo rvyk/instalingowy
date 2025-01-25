@@ -23,7 +23,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import pl.rvyk.instapp.LoginActivity;
 import pl.rvyk.instapp.R;
 import pl.rvyk.instapp.utils.SnackbarController;
-import pl.rvyk.instapp.utils.VersionFetcher;
 
 public class SettingsFragment extends Fragment {
 
@@ -192,19 +191,6 @@ public class SettingsFragment extends Fragment {
             TextView instaling_version = extraInfoDialog.findViewById(R.id.instaling_version);
 
             app_version.setText("VN: " + versionName + ", VC: " + versionCode);
-
-            VersionFetcher.fetchAPIVersion(getActivity(), new VersionFetcher.FetchAPIVersionListener() {
-                @Override
-                public void onSuccess(String version) {
-                    api_version.setText(version);
-                }
-
-                @Override
-                public void onError(Throwable error) {
-                    SnackbarController.showSnackbar(getActivity(), view, error, getResources().getString(R.string.unkown_error), true);
-                    api_version.setText(getResources().getString(R.string.unkown_error));
-                }
-            });
 
             sharedPreferences = requireActivity().getSharedPreferences("Account1", Context.MODE_PRIVATE);
             String instalingVersion = sharedPreferences.getString("instalingVersion", "");

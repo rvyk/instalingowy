@@ -1,17 +1,13 @@
 package pl.rvyk.instapp.solving;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import java.io.IOException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+import pl.rvyk.instapp.scrapper.GenerateQuestion.GenerateQuestion;
 
 public class GenerateQuestionRequestHelper {
 
@@ -22,48 +18,34 @@ public class GenerateQuestionRequestHelper {
     }
 
     public static void sendGenerateQuestionRequest(Context context, String phpSessionId, String appId, String studentId, final GenerateQuestionResponseListener listener) {
-        JSONObject jsonParams = new JSONObject();
-        try {
-            jsonParams.put("phpsessid", phpSessionId);
-            jsonParams.put("appid", appId);
-            jsonParams.put("studentid", studentId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "https://api.ezinstaling.lol/api/v1/instaling/generatequestion", jsonParams,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject questionObject = response.optJSONObject("question");
-                        boolean ended = response.optBoolean("ended");
-                        if (questionObject != null) {
-                            String question = questionObject.optString("translations");
-                            String questionId = questionObject.optString("id");
-                            String usageExample = questionObject.optString("usage_example");
-                            listener.onSuccess(question, usageExample, questionId);
-                        } else if (ended == true) {
-                            try {
-                                listener.onFinish(ended, response.getString("instalDays"), response.getString("words"), response.getString("correct"));
-                            } catch (Exception e) {
-                                listener.onError(e);
-                            }
-                        } else {
-                            Throwable throwable = new Throwable("Question object is null");
-                            listener.onError(throwable);
-                        }
+        GenerateQuestion generateQuestion = new GenerateQuestion();
+        generateQuestion.generate(phpSessionId, appId, studentId, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (generateQuestion.isSuccess()) {
+                    if (generateQuestion.isEnded()) {
+                        listener.onFinish(
+                            true,
+                            String.valueOf(generateQuestion.getInstalingDays()),
+                            String.valueOf(generateQuestion.getWords()),
+                            String.valueOf(generateQuestion.getCorrect())
+                        );
+                    } else {
+                        listener.onSuccess(
+                            generateQuestion.getGeneratedWord(),
+                            generateQuestion.getQuestion(),
+                            generateQuestion.getQuestionID()
+                        );
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Throwable throwable = new Throwable("VolleyError: " + error.getMessage());
-                        listener.onError(throwable);
-                    }
-                });
+                } else {
+                    listener.onError(new Throwable("Failed to generate question"));
+                }
+            }
 
-        requestQueue.add(jsonObjectRequest);
+            @Override
+            public void onFailure(Call call, IOException e) {
+                listener.onError(e);
+            }
+        });
     }
 }

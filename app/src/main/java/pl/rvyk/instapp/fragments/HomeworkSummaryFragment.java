@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -31,28 +24,28 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import pl.rvyk.instapp.R;
+import pl.rvyk.instapp.scrapper.Homeworks.GetHomeworkDetails;
+import pl.rvyk.instapp.scrapper.Homeworks.SaveHomework;
 import pl.rvyk.instapp.utils.SnackbarController;
 
 public class HomeworkSummaryFragment extends Fragment {
-
-    private static final String API_URL = "https://api.ezinstaling.lol/api/v1/instaling/gethomeworksummary";
-    private static final String API_URL_SAVE_HOMEWORK = "https://api.ezinstaling.lol/api/v1/instaling/savehomework";
 
     private TextView title, term, exercise;
     private TextInputLayout answerLayout, teacherNoteLayout, gradeLayout;
     private TextInputEditText answer, teacherNote, grade;
     private SharedPreferences sharedPreferences;
-    private RequestQueue requestQueue;
     private MaterialButton saveButton, sendButton, additionalMaterialButton;
     private MaterialCardView information, note, gradeView, additionalMaterials;
     private LinearLayout loaderLayout, content;
 
     private String additionalMaterialLink;
-    private String homeworkLink, homeworkExercise;
+    private String homeworkLink;
 
     @Nullable
     @Override
@@ -86,194 +79,154 @@ public class HomeworkSummaryFragment extends Fragment {
         additionalMaterials = view.findViewById(R.id.externalLinkCard);
         additionalMaterialButton = view.findViewById(R.id.externalLink);
 
-        requestQueue = Volley.newRequestQueue(requireContext());
-
         Bundle bundle = getArguments();
         if (bundle != null) {
-            homeworkLink = bundle.getString("homeworkLink");
-            homeworkExercise = bundle.getString("homeworkExercise");
+            homeworkLink = bundle.getString("link");
             getHomeworks(homeworkLink, phpsessid);
         }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                fragmentManager.popBackStack();
-            }
+        toolbar.setNavigationOnClickListener(view1 -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.popBackStack();
         });
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        saveButton.setOnClickListener(view12 -> {
+            String userResponse = answer.getText().toString();
+            sendHomeworkRequest(phpsessid, userResponse, "save");
+        });
+
+        sendButton.setOnClickListener(view13 -> {
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+            builder.setTitle(getString(R.string.homework_dialog_title));
+            builder.setMessage(getString(R.string.homework_dialog_message));
+            builder.setNegativeButton(getActivity().getResources().getString(R.string.reportDialogCancel), null);
+            builder.setPositiveButton(getActivity().getResources().getString(R.string.homework_dialog_confirm), (dialog, which) -> {
                 String userResponse = answer.getText().toString();
-                sendHomeworkRequest(phpsessid, userResponse, "save");
-            }
+                sendHomeworkRequest(phpsessid, userResponse, "save_and_send");
+            });
+            builder.show();
         });
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
-                builder.setTitle(getString(R.string.homework_dialog_title));
-                builder.setMessage(getString(R.string.homework_dialog_message));
-                builder.setNegativeButton(getActivity().getResources().getString(R.string.reportDialogCancel), null);
-                builder.setPositiveButton(getActivity().getResources().getString(R.string.homework_dialog_confirm), (dialog, which) -> {
-                    String userResponse = answer.getText().toString();
-                    sendHomeworkRequest(phpsessid, userResponse, "save_and_send");
-                });
-                builder.show();
-            }
-        });
-
-        additionalMaterialButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(additionalMaterialLink));
-                    startActivity(intent);
-                } catch (Exception e ) {
-                    SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
-                }
+        additionalMaterialButton.setOnClickListener(view14 -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(additionalMaterialLink));
+                startActivity(intent);
+            } catch (Exception e) {
+                SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
             }
         });
         return view;
     }
 
     private void sendHomeworkRequest(String phpsessid, String userResponse, String action) {
-        JSONObject jsonParams = new JSONObject();
+        SaveHomework saveHomework = new SaveHomework();
         try {
-            jsonParams.put("phpsessid", phpsessid);
-            jsonParams.put("link", homeworkLink);
-            jsonParams.put("exercise", homeworkExercise);
-            jsonParams.put("response", userResponse);
-            jsonParams.put("action", action);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
-        }
+            saveHomework.save(phpsessid, homeworkLink, userResponse, action, new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) {
+                    if (!isAdded()) {
+                        return;
+                    }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, API_URL_SAVE_HOMEWORK, jsonParams,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        Log.d("test", String.valueOf(response));
-                        if (!isAdded()) {
-                            return;
-                        }
-
-                        try {
-                            boolean success = response.getBoolean("success");
-                            if (success) {
-                                if (action.equals("save")) {
-                                    Toast.makeText(getActivity(), getString(R.string.homework_saved), Toast.LENGTH_SHORT).show();
-                                } else if (action.equals("save_and_send")) {
-                                    Toast.makeText(getActivity(), getString(R.string.homework_completed), Toast.LENGTH_SHORT).show();
-                                    FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                                    fragmentManager.popBackStack();
-                                }
-                            } else {
-                                Throwable error = new Throwable(getString(R.string.unkown_error));
-                                SnackbarController.showSnackbar(getActivity(), content, error, getResources().getString(R.string.unkown_error), true);
-                                hideLoader();
+                    requireActivity().runOnUiThread(() -> {
+                        if (saveHomework.isSuccess()) {
+                            if (action.equals("save")) {
+                                Toast.makeText(getActivity(), getString(R.string.homework_saved), Toast.LENGTH_SHORT).show();
+                            } else if (action.equals("save_and_send")) {
+                                Toast.makeText(getActivity(), getString(R.string.homework_completed), Toast.LENGTH_SHORT).show();
+                                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                                fragmentManager.popBackStack();
                             }
-                        } catch (JSONException e) {
-                            SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
-                            hideLoader();
+                        } else {
+                            Throwable error = new Throwable(getString(R.string.unkown_error));
+                            SnackbarController.showSnackbar(getActivity(), content, error, getResources().getString(R.string.unkown_error), true);
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (!isAdded()) {
-                            return;
-                        }
-                        SnackbarController.showSnackbar(getActivity(), content, error, getResources().getString(R.string.unkown_error), true);
-                    }
-                });
+                    });
+                }
 
-        requestQueue.add(jsonObjectRequest);
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    if (!isAdded()) {
+                        return;
+                    }
+
+                    requireActivity().runOnUiThread(() -> 
+                        SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true)
+                    );
+                }
+            });
+        } catch (IOException e) {
+            requireActivity().runOnUiThread(() -> 
+                SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true)
+            );
+        }
     }
 
     private void getHomeworks(String link, String phpsessid) {
         showLoader();
 
-        JSONObject jsonParams = new JSONObject();
-        try {
-            jsonParams.put("phpsessid", phpsessid);
-            jsonParams.put("link", link);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
-        }
+        GetHomeworkDetails getHomeworkDetails = new GetHomeworkDetails();
+        getHomeworkDetails.details(phpsessid, link, new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                if (!isAdded()) {
+                    return;
+                }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, API_URL, jsonParams,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        if (!isAdded()) {
-                            return;
-                        }
+                requireActivity().runOnUiThread(() -> {
+                    if (getHomeworkDetails.isSuccess()) {
+                        if (getHomeworkDetails.isDone()) {
+                            answer.setEnabled(false);
+                            sendButton.setVisibility(View.GONE);
+                            saveButton.setVisibility(View.GONE);
+                            information.setVisibility(View.GONE);
 
-                        try {
-                            boolean success = response.getBoolean("success");
-                            JSONObject details = response.optJSONObject("details");
-                            if (success) {
-                                if (response.getBoolean("done")) {
-                                    answer.setEnabled(false);
-                                    sendButton.setVisibility(View.GONE);
-                                    saveButton.setVisibility(View.GONE);
-                                    information.setVisibility(View.GONE);
-                                    if (details.has("grade")) {
-                                        if (details.getString("grade").equals("0")) {
-                                            grade.setText(R.string.homework_no_grade);
-                                        } else {
-                                            grade.setText(details.getString("grade"));
-                                        }
-                                        gradeView.setVisibility(View.VISIBLE);
-                                    }
+                            String homeworkGrade = getHomeworkDetails.getGrade();
+                            if (homeworkGrade != null && !homeworkGrade.isEmpty()) {
+                                if (homeworkGrade.equals("0")) {
+                                    grade.setText(R.string.homework_no_grade);
+                                } else {
+                                    grade.setText(homeworkGrade);
                                 }
-
-                                if (details.has("note")) {
-                                    teacherNote.setText(details.getString("note"));
-                                    note.setVisibility(View.VISIBLE);
-                                }
-
-                                if (details.has("ytLink")) {
-                                    additionalMaterialLink = details.getString("ytLink");
-                                    additionalMaterials.setVisibility(View.VISIBLE);
-                                }
-
-                                title.setText(response.getString("title"));
-                                term.setText(response.getString("deadline"));
-                                answer.setText(details.getString("answer"));
-                                exercise.setText(details.getString("exercise"));
-
-                                hideLoader();
-                            } else {
-                                Throwable error = new Throwable(getString(R.string.unkown_error));
-                                SnackbarController.showSnackbar(getActivity(), content, error, getResources().getString(R.string.unkown_error), true);
-                                hideLoader();
+                                gradeView.setVisibility(View.VISIBLE);
                             }
-                        } catch (JSONException e) {
-                            SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
-                            hideLoader();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (!isAdded()) {
-                            return;
-                        }
-                        SnackbarController.showSnackbar(getActivity(), content, error, getResources().getString(R.string.unkown_error), true);
-                    }
-                });
 
-        requestQueue.add(jsonObjectRequest);
+                        String note = getHomeworkDetails.getNote();
+                        if (note != null && !note.isEmpty()) {
+                            teacherNote.setText(note);
+                            HomeworkSummaryFragment.this.note.setVisibility(View.VISIBLE);
+                        }
+
+                        String ytLink = getHomeworkDetails.getYtLink();
+                        if (ytLink != null && !ytLink.isEmpty()) {
+                            additionalMaterialLink = ytLink;
+                            additionalMaterials.setVisibility(View.VISIBLE);
+                        }
+
+                        title.setText(getHomeworkDetails.getTitle());
+                        term.setText(getHomeworkDetails.getDeadline());
+                        exercise.setText(getHomeworkDetails.getExercise());
+                        answer.setText(getHomeworkDetails.getAnswer());
+                    } else {
+                        SnackbarController.showSnackbar(getActivity(), content, new Throwable("Failed to get homework details"), getResources().getString(R.string.unkown_error), true);
+                    }
+                    hideLoader();
+                });
+            }
+
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                if (!isAdded()) {
+                    return;
+                }
+
+                requireActivity().runOnUiThread(() -> {
+                    SnackbarController.showSnackbar(getActivity(), content, e, getResources().getString(R.string.unkown_error), true);
+                    hideLoader();
+                });
+            }
+        });
     }
 
     private void showLoader() {
@@ -282,6 +235,7 @@ public class HomeworkSummaryFragment extends Fragment {
         }
 
         loaderLayout.setVisibility(View.VISIBLE);
+        content.setVisibility(View.GONE);
     }
 
     private void hideLoader() {
@@ -290,5 +244,6 @@ public class HomeworkSummaryFragment extends Fragment {
         }
 
         loaderLayout.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
     }
 }

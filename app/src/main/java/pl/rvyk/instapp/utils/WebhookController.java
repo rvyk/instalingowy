@@ -6,78 +6,82 @@ import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import pl.rvyk.instapp.R;
 
 public class WebhookController {
+    private static final OkHttpClient client = new OkHttpClient();
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
     public static void sendBugReportToWebhook(Throwable error, Context context) {
         FirebaseRemoteConfig firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 String webhookUrl = firebaseRemoteConfig.getString("DISCORD_WEBHOOK_URL");
                 String bugReport = Utils.getStackTraceAsString(error);
-                RequestQueue queue = Volley.newRequestQueue(context);
-                StringRequest request = new StringRequest(Request.Method.POST, webhookUrl,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(context, context.getResources().getString(R.string.reportSucess), Toast.LENGTH_SHORT).show();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("WebhookController", "Error while sending bug report to webhook", error);
-                                Toast.makeText(context, context.getResources().getString(R.string.reportFailure), Toast.LENGTH_SHORT).show();
-                            }
-                        }) {
-                    @Override
-                    public byte[] getBody() throws AuthFailureError {
-                        JSONObject jsonBody = new JSONObject();
-                        try {
-                            JSONObject embed = new JSONObject();
-                            embed.put("title", "Raport błędu");
-                            embed.put("color", 15158332); // Czerwony kolor
-                            embed.put("fields", createDeviceInfoFields(context));
-                            embed.put("description", "```\n" + bugReport + "```");
+                try {
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("username", "Instapp Bug Reporter");
+                    jsonBody.put("content", "```" + bugReport + "```");
 
-                            JSONArray embedsArray = new JSONArray().put(embed);
-                            jsonBody.put("embeds", embedsArray);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    JSONObject embedObject = new JSONObject();
+                    embedObject.put("title", "Device Info");
+                    embedObject.put("color", 15548997);
+                    embedObject.put("fields", createDeviceInfoFields(context));
+
+                    JSONArray embedsArray = new JSONArray();
+                    embedsArray.put(embedObject);
+                    jsonBody.put("embeds", embedsArray);
+
+                    RequestBody body = RequestBody.create(JSON, jsonBody.toString());
+                    Request request = new Request.Builder()
+                            .url(webhookUrl)
+                            .post(body)
+                            .build();
+
+                    client.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            if (response.isSuccessful()) {
+                                showToast(context, context.getResources().getString(R.string.reportSucess));
+                            } else {
+                                showToast(context, context.getResources().getString(R.string.reportFailure));
+                            }
                         }
-                        return jsonBody.toString().getBytes();
-                    }
 
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> headers = new HashMap<>();
-                        headers.put("Content-Type", "application/json");
-                        return headers;
-                    }
-                };
-
-                queue.add(request);
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Log.e("WebhookController", "Error while sending bug report to webhook", e);
+                            showToast(context, context.getResources().getString(R.string.reportFailure));
+                        }
+                    });
+                } catch (JSONException e) {
+                    Log.e("WebhookController", "Error while creating JSON body", e);
+                    showToast(context, context.getResources().getString(R.string.reportFailure));
+                }
             } else {
-                Toast.makeText(context, context.getResources().getString(R.string.reportFailure), Toast.LENGTH_SHORT).show();
-
+                showToast(context, context.getResources().getString(R.string.reportFailure));
             }
         });
+    }
+
+    private static void showToast(Context context, String message) {
+        android.os.Handler mainHandler = new android.os.Handler(context.getMainLooper());
+        mainHandler.post(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show());
     }
 
     private static JSONArray createDeviceInfoFields(Context context) throws JSONException {
@@ -102,9 +106,7 @@ public class WebhookController {
         try {
             return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            return "Unknown";
         }
-        return "";
     }
-
 }
